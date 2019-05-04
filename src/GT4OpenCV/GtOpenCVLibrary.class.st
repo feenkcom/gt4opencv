@@ -4,6 +4,11 @@ Class {
 	#category : #GT4OpenCV
 }
 
+{ #category : #'as yet unclassified' }
+GtOpenCVLibrary >> createImage: aSize depth: depth channels: channels [
+	^ self ffiCall: #(GtOpenCVImage* cvCreateImage(GtOpenCVSize aSize, int depth, int channels))
+]
+
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> detectLibrary: aFileName [
 	^ ({ Smalltalk imageDirectory . Smalltalk vmDirectory . FileSystem workingDirectory }
@@ -11,6 +16,11 @@ GtOpenCVLibrary >> detectLibrary: aFileName [
 			detect: #exists
 			ifFound: #fullName
 			ifNone: [ aFileName ]
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCVLibrary >> getSize: anImage [
+	^ self primGetSize: anImage getHandle
 ]
 
 { #category : #'accessing platform' }
@@ -21,6 +31,11 @@ GtOpenCVLibrary >> macModuleName [
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> moduleName [
 	^ 'libopencv_world.3.4.6'
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCVLibrary >> primGetSize: anImage [
+	^ self ffiCall: #(GtOpenCVSize cvGetSize(void* anImage))
 ]
 
 { #category : #'accessing platform' }

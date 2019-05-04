@@ -1,0 +1,44 @@
+Class {
+	#name : #GtOpenCVSize,
+	#superclass : #FFIExternalStructure,
+	#classVars : [
+		'OFFSET_HEIGHT',
+		'OFFSET_WIDTH'
+	],
+	#category : #GT4OpenCV
+}
+
+{ #category : #'field definition' }
+GtOpenCVSize class >> fieldsDesc [
+	"
+	self rebuildFieldAccessors
+	"
+	^ #(
+	int width
+	int height
+	)
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVSize >> height [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_HEIGHT
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVSize >> height: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_HEIGHT put: anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVSize >> width [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_WIDTH
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVSize >> width: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_WIDTH put: anObject
+]

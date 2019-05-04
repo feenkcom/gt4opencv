@@ -1,5 +1,5 @@
 Class {
-	#name : #GtOpenCVIplImage,
+	#name : #GtOpenCVImage,
 	#superclass : #FFIExternalStructure,
 	#classVars : [
 		'OFFSET_ALIGN',
@@ -41,7 +41,7 @@ Class {
 }
 
 { #category : #'field definition' }
-GtOpenCVIplImage class >> fieldsDesc [
+GtOpenCVImage class >> fieldsDesc [
 	"
 	self rebuildFieldAccessors
 	"
@@ -88,409 +88,534 @@ GtOpenCVIplImage class >> fieldsDesc [
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_1 [
+GtOpenCVImage >> BorderConst_1 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERCONST_1
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_1: anObject [
+GtOpenCVImage >> BorderConst_1: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERCONST_1 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_2 [
+GtOpenCVImage >> BorderConst_2 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERCONST_2
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_2: anObject [
+GtOpenCVImage >> BorderConst_2: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERCONST_2 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_3 [
+GtOpenCVImage >> BorderConst_3 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERCONST_3
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_3: anObject [
+GtOpenCVImage >> BorderConst_3: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERCONST_3 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_4 [
+GtOpenCVImage >> BorderConst_4 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERCONST_4
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderConst_4: anObject [
+GtOpenCVImage >> BorderConst_4: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERCONST_4 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_1 [
+GtOpenCVImage >> BorderMode_1 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERMODE_1
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_1: anObject [
+GtOpenCVImage >> BorderMode_1: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERMODE_1 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_2 [
+GtOpenCVImage >> BorderMode_2 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERMODE_2
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_2: anObject [
+GtOpenCVImage >> BorderMode_2: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERMODE_2 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_3 [
+GtOpenCVImage >> BorderMode_3 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERMODE_3
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_3: anObject [
+GtOpenCVImage >> BorderMode_3: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERMODE_3 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_4 [
+GtOpenCVImage >> BorderMode_4 [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_BORDERMODE_4
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> BorderMode_4: anObject [
+GtOpenCVImage >> BorderMode_4: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_BORDERMODE_4 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> ID [
+GtOpenCVImage >> ID [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_ID
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> ID: anObject [
+GtOpenCVImage >> ID: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_ID put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> align [
+GtOpenCVImage >> align [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_ALIGN
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> align: anObject [
+GtOpenCVImage >> align: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_ALIGN put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> alphaChannel [
+GtOpenCVImage >> alphaChannel [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_ALPHACHANNEL
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> alphaChannel: anObject [
+GtOpenCVImage >> alphaChannel: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_ALPHACHANNEL put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_1 [
+GtOpenCVImage >> channelSeq_1 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_CHANNELSEQ_1
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_1: anObject [
+GtOpenCVImage >> channelSeq_1: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_CHANNELSEQ_1 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_2 [
+GtOpenCVImage >> channelSeq_2 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_CHANNELSEQ_2
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_2: anObject [
+GtOpenCVImage >> channelSeq_2: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_CHANNELSEQ_2 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_3 [
+GtOpenCVImage >> channelSeq_3 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_CHANNELSEQ_3
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_3: anObject [
+GtOpenCVImage >> channelSeq_3: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_CHANNELSEQ_3 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_4 [
+GtOpenCVImage >> channelSeq_4 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_CHANNELSEQ_4
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> channelSeq_4: anObject [
+GtOpenCVImage >> channelSeq_4: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_CHANNELSEQ_4 put: anObject
 ]
 
+{ #category : #'api - accessing' }
+GtOpenCVImage >> colorModel [
+	<return: #String>
+
+	^ Symbol streamContents: [ :aStream |
+		self channelSeq_1 ~= Character null
+			ifTrue: [ aStream nextPut: self channelSeq_1 ].
+		self channelSeq_2 ~= Character null
+			ifTrue: [ aStream nextPut: self channelSeq_2 ].
+		self channelSeq_3 ~= Character null
+			ifTrue: [ aStream nextPut: self channelSeq_3 ].
+		self channelSeq_4 ~= Character null
+			ifTrue: [ aStream nextPut: self channelSeq_4 ] ].
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_1 [
+GtOpenCVImage >> colorModel_1 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_COLORMODEL_1
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_1: anObject [
+GtOpenCVImage >> colorModel_1: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_COLORMODEL_1 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_2 [
+GtOpenCVImage >> colorModel_2 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_COLORMODEL_2
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_2: anObject [
+GtOpenCVImage >> colorModel_2: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_COLORMODEL_2 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_3 [
+GtOpenCVImage >> colorModel_3 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_COLORMODEL_3
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_3: anObject [
+GtOpenCVImage >> colorModel_3: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_COLORMODEL_3 put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_4 [
+GtOpenCVImage >> colorModel_4 [
 	"This method was automatically generated"
 	^handle unsignedCharAt: OFFSET_COLORMODEL_4
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> colorModel_4: anObject [
+GtOpenCVImage >> colorModel_4: anObject [
 	"This method was automatically generated"
 	handle unsignedCharAt: OFFSET_COLORMODEL_4 put: anObject
 ]
 
+{ #category : #private }
+GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
+	| cv dest |
+
+	self colorModel = aModel
+		ifTrue: [ ^ self ].
+		
+	cv := GtOpenCvImgproc uniqueInstance.
+	dest := aDestinationImageBlock value.
+	
+	cv cvtColorSrc: self dest: dest to: (self convertionTo: aModel).
+	
+	^ dest
+]
+
+{ #category : #private }
+GtOpenCVImage >> convertionTable [
+	^ {
+		(#BGR -> #RGBA) -> 2.
+		(#BGR -> #GRAY) -> 6.
+		(#GRAY -> #RGBA) -> 9.
+		(#BGRA -> #GRAY) -> 10.
+	} asDictionary
+]
+
+{ #category : #private }
+GtOpenCVImage >> convertionTo: aMode [
+	^ self convertionTo: aMode ifAbsent: [ self error: 'Can not convert ', self colorModel, ' to ', aMode ]
+]
+
+{ #category : #private }
+GtOpenCVImage >> convertionTo: aMode ifAbsent: aBlock [
+	^ self convertionTable
+		at: (self colorModel -> aMode)
+		ifAbsent: aBlock
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> dataOrder [
+GtOpenCVImage >> dataOrder [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_DATAORDER
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> dataOrder: anObject [
+GtOpenCVImage >> dataOrder: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_DATAORDER put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> depth [
+GtOpenCVImage >> depth [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_DEPTH
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> depth: anObject [
+GtOpenCVImage >> depth: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_DEPTH put: anObject
 ]
 
+{ #category : #'api - accessing' }
+GtOpenCVImage >> extent [
+	^ self width @ self height
+]
+
+{ #category : #extensions }
+GtOpenCVImage >> gtInfoFor: aView [
+	<gtView>
+	^ aView columnedList 
+		title: 'Info' translated;
+		priority: 10;
+		items: [ { 
+			'Color Model' -> self colorModel.
+			'Extent' -> self extent
+		} ];
+		column: 'Key' do: [:aColumn | 
+			aColumn item: [ :each | each key asString ]; matchParent ];
+		column: 'Value' do: [:aColumn |
+			aColumn item: [ :each | each value gtDisplayString ]; matchParent ];
+		send: #value
+]
+
+{ #category : #extensions }
+GtOpenCVImage >> gtPreviewFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live' translated;
+		priority: 10;
+		stencil: [
+			| canvas surface rgba |
+			rgba := self toRGBA.
+			canvas := MozCanvas extent: rgba extent.
+			surface := canvas bitmap
+				fromRGBA: rgba imageData
+				extent: rgba extent
+				stride: rgba widthStep.
+			canvas fill
+				paint: surface;
+				path: surface bounds;
+				draw.
+			BlElement new
+				size: rgba extent;
+				background: canvas asForm;
+				asScalableElement ]
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> height [
+GtOpenCVImage >> height [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_HEIGHT
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> height: anObject [
+GtOpenCVImage >> height: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_HEIGHT put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageData [
+GtOpenCVImage >> imageData [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_IMAGEDATA) type: ExternalType char asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageData: anObject [
+GtOpenCVImage >> imageData: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_IMAGEDATA put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageDataOrigin [
+GtOpenCVImage >> imageDataOrigin [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_IMAGEDATAORIGIN) type: ExternalType char asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageDataOrigin: anObject [
+GtOpenCVImage >> imageDataOrigin: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_IMAGEDATAORIGIN put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageId [
+GtOpenCVImage >> imageId [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_IMAGEID) type: ExternalType void asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageId: anObject [
+GtOpenCVImage >> imageId: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_IMAGEID put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageSize [
+GtOpenCVImage >> imageSize [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_IMAGESIZE
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> imageSize: anObject [
+GtOpenCVImage >> imageSize: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_IMAGESIZE put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> maskROI [
+GtOpenCVImage >> maskROI [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_MASKROI) type: ExternalType void asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> maskROI: anObject [
+GtOpenCVImage >> maskROI: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_MASKROI put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> nChannels [
+GtOpenCVImage >> nChannels [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NCHANNELS
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> nChannels: anObject [
+GtOpenCVImage >> nChannels: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_NCHANNELS put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> nSize [
+GtOpenCVImage >> nSize [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_NSIZE
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> nSize: anObject [
+GtOpenCVImage >> nSize: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_NSIZE put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> origin [
+GtOpenCVImage >> origin [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_ORIGIN
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> origin: anObject [
+GtOpenCVImage >> origin: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_ORIGIN put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> roi [
+GtOpenCVImage >> roi [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_ROI) type: ExternalType void asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> roi: anObject [
+GtOpenCVImage >> roi: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_ROI put: anObject getHandle.
 ]
 
+{ #category : #'api - accessing' }
+GtOpenCVImage >> size [
+	^ GtOpenCVSize new width: self width; height: self height
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> tileInfo [
+GtOpenCVImage >> tileInfo [
 	"This method was automatically generated"
 	^ExternalData fromHandle: (handle pointerAt: OFFSET_TILEINFO) type: ExternalType void asPointerType
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> tileInfo: anObject [
+GtOpenCVImage >> tileInfo: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_TILEINFO put: anObject getHandle.
 ]
 
+{ #category : #'api - converting' }
+GtOpenCVImage >> toGray [
+	<return: #GtOpenCVImage>
+	
+	^ self convertTo: #GRAY in: [
+		GtOpenCvImgproc uniqueInstance
+			createImage: self size
+			depth: 8
+			channels: 1 ]
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> toRGBA [
+	<return: #GtOpenCVImage>
+
+	^ self convertTo: #RGBA in: [
+		GtOpenCvImgproc uniqueInstance
+			createImage: self size
+			depth: 8
+			channels: 4 ]
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> width [
+GtOpenCVImage >> width [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_WIDTH
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> width: anObject [
+GtOpenCVImage >> width: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_WIDTH put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> widthStep [
+GtOpenCVImage >> widthStep [
 	"This method was automatically generated"
 	^handle signedLongAt: OFFSET_WIDTHSTEP
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVIplImage >> widthStep: anObject [
+GtOpenCVImage >> widthStep: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_WIDTHSTEP put: anObject
 ]

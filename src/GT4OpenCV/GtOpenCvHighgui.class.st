@@ -21,5 +21,5 @@ GtOpenCvHighgui >> resizeWindow: aString width: width height: height [
 
 { #category : #'as yet unclassified' }
 GtOpenCvHighgui >> show: aName image: anImage [
-	^ self ffiCall: #(void cvShowImage(String aName, GtOpenCVIplImage* anImage))
+	^ self ffiCall: #(void cvShowImage(String aName, #GtOpenCVImage* anImage))
 ]

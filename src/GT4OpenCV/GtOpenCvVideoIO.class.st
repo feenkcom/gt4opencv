@@ -16,7 +16,7 @@ GtOpenCvVideoIO >> grabFrame: capture [
 
 { #category : #'as yet unclassified' }
 GtOpenCvVideoIO >> queryFrame: capture [
-	^ self ffiCall: #(GtOpenCVIplImage* cvQueryFrame (void* capture))
+	^ self ffiCall: #(GtOpenCVImage* cvQueryFrame (void* capture))
 ]
 
 { #category : #'as yet unclassified' }
