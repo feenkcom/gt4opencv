@@ -6,7 +6,7 @@ Class {
 
 { #category : #'as yet unclassified' }
 GtOpenCvVideoIO >> createCameraCapture: index [
-	^ self ffiCall: #(void* cvCaptureFromCAM (int index))
+	^ self ffiCall: #(void* cvCreateCameraCapture (int index))
 ]
 
 { #category : #'accessing platform' }
