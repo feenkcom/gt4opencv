@@ -9,7 +9,22 @@ GtOpenCvVideoIO >> createCameraCapture: index [
 	^ self ffiCall: #(void* cvCreateCameraCapture (int index))
 ]
 
-{ #category : #'accessing platform' }
-GtOpenCvVideoIO >> moduleName [
-	^ 'libopencv_videoio.4.1.0'
+{ #category : #'as yet unclassified' }
+GtOpenCvVideoIO >> grabFrame: capture [
+	^ self ffiCall: #(int cvGrabFrame (void* capture))
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCvVideoIO >> queryFrame: capture [
+	^ self ffiCall: #(GtOpenCVIplImage* cvQueryFrame (void* capture))
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCvVideoIO >> releaseCapture: capture [
+	^ self ffiCall: #(void cvReleaseCapture (void* capture))
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCvVideoIO >> setCaptureProperty: capture id: propertyId value: propertyValue [
+	^ self ffiCall: #(void cvSetCaptureProperty (void* capture, int propertyId, double propertyValue))
 ]

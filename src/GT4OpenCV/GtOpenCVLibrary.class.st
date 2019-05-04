@@ -20,7 +20,7 @@ GtOpenCVLibrary >> macModuleName [
 
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> moduleName [
-	^ self subclassResponsibility
+	^ 'libopencv_world.3.4.6'
 ]
 
 { #category : #'accessing platform' }

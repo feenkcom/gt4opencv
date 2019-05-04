@@ -9,11 +9,6 @@ GtOpenCvHighgui >> destroyWindow: aString [
 	^ self ffiCall: #(void cvDestroyWindow (String aString))
 ]
 
-{ #category : #'accessing platform' }
-GtOpenCvHighgui >> moduleName [
-	^ 'libopencv_highgui.4.1.0'
-]
-
 { #category : #'as yet unclassified' }
 GtOpenCvHighgui >> namedWindow: aString [
 	^ self ffiCall: #(void cvNamedWindow (String aString, 0))
@@ -22,4 +17,9 @@ GtOpenCvHighgui >> namedWindow: aString [
 { #category : #'as yet unclassified' }
 GtOpenCvHighgui >> resizeWindow: aString width: width height: height [
 	^ self ffiCall: #(void cvResizeWindow (String aString, int width, int height))
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCvHighgui >> show: aName image: anImage [
+	^ self ffiCall: #(void cvShowImage(String aName, GtOpenCVIplImage* anImage))
 ]
