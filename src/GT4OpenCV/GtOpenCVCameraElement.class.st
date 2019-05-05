@@ -5,7 +5,8 @@ Class {
 		'video',
 		'capture',
 		'image',
-		'updater'
+		'updater',
+		'filters'
 	],
 	#category : #GT4OpenCV
 }
@@ -30,11 +31,17 @@ GtOpenCVCameraElement >> drawOnSpartaCanvas: aCanvas [
 ]
 
 { #category : #initialization }
+GtOpenCVCameraElement >> filter: aFilter [
+	filters add: aFilter
+]
+
+{ #category : #initialization }
 GtOpenCVCameraElement >> initialize [
 	super initialize.
 	
 	video := GtOpenCvVideoIO uniqueInstance.
 	capture := video createCameraCapture: 0.
+	filters := OrderedCollection new.
 	
 	updater := self newTask
 ]
@@ -45,6 +52,8 @@ GtOpenCVCameraElement >> newTask [
 		delay: 0;
 		action: [
 			image := video queryFrame: capture.
+			filters do: [ :aFilter | image := aFilter value: image ].
+			
 			self size: image width @ image height.
 			self invalidate ]
 ]

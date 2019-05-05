@@ -1,6 +1,8 @@
 Class {
 	#name : #GtOpenCVImage,
 	#superclass : #FFIExternalStructure,
+	#traits : 'TGtOpenCVPtr',
+	#classTraits : 'TGtOpenCVPtr classTrait',
 	#classVars : [
 		'OFFSET_ALIGN',
 		'OFFSET_ALPHACHANNEL',
@@ -37,8 +39,16 @@ Class {
 		'OFFSET_WIDTH',
 		'OFFSET_WIDTHSTEP'
 	],
+	#pools : [
+		'GtOpenCVConstants'
+	],
 	#category : #GT4OpenCV
 }
+
+{ #category : #resources }
+GtOpenCVImage class >> ffiLibraryName [
+	^ GtOpenCVLibrary
+]
 
 { #category : #'field definition' }
 GtOpenCVImage class >> fieldsDesc [
@@ -85,6 +95,13 @@ GtOpenCVImage class >> fieldsDesc [
 	int 	BorderConst_3
 	int 	BorderConst_4
 	char* 	imageDataOrigin)
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVImage class >> primRelease: aHandle [
+	
+	"Plain pointers must be deleted using delete(), all users must implement a specific method"
+	^ self ffiCall: #(void cvReleaseImage(void** aHandle))
 ]
 
 { #category : #'accessing structure variables' }
@@ -336,11 +353,13 @@ GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
 
 	self colorModel = aModel
 		ifTrue: [ ^ self ].
-		
+
 	cv := GtOpenCvImgproc uniqueInstance.
 	dest := aDestinationImageBlock value.
 	
 	cv cvtColorSrc: self dest: dest to: (self convertionTo: aModel).
+	
+	dest autoRelease.
 	
 	^ dest
 ]
@@ -348,10 +367,14 @@ GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
 { #category : #private }
 GtOpenCVImage >> convertionTable [
 	^ {
-		(#BGR -> #RGBA) -> 2.
-		(#BGR -> #GRAY) -> 6.
-		(#GRAY -> #RGBA) -> 9.
-		(#BGRA -> #GRAY) -> 10.
+		(#BGR -> #RGBA) -> CV_BGR2RGBA.
+		(#BGR -> #BGRA) -> CV_BGR2BGRA.
+		(#BGR -> #GRAY) -> CV_BGR2GRAY.
+		(#GRAY -> #RGBA) -> CV_GRAY2RGBA.
+		(#BGRA -> #GRAY) -> CV_BGRA2GRAY.
+		(#BGRA -> #RGBA) -> CV_BGRA2RGBA.
+		(#BGRA -> #BGR) -> CV_BGRA2BGR.
+		(#GRAY -> #BGR) -> CV_GRAY2BGR
 	} asDictionary
 ]
 
@@ -396,6 +419,11 @@ GtOpenCVImage >> extent [
 	^ self width @ self height
 ]
 
+{ #category : #resources }
+GtOpenCVImage >> ffiLibraryName [
+	^ self class ffiLibraryName
+]
+
 { #category : #extensions }
 GtOpenCVImage >> gtInfoFor: aView [
 	<gtView>
@@ -403,8 +431,9 @@ GtOpenCVImage >> gtInfoFor: aView [
 		title: 'Info' translated;
 		priority: 10;
 		items: [ { 
+			'Extent' -> self extent.
+			'Channels' -> self nChannels.
 			'Color Model' -> self colorModel.
-			'Extent' -> self extent
 		} ];
 		column: 'Key' do: [:aColumn | 
 			aColumn item: [ :each | each key asString ]; matchParent ];
@@ -545,6 +574,40 @@ GtOpenCVImage >> origin: anObject [
 	handle signedLongAt: OFFSET_ORIGIN put: anObject
 ]
 
+{ #category : #'api - converting' }
+GtOpenCVImage >> resize: anExtent [
+	anExtent = self extent
+		ifTrue: [ ^ self ].
+	anExtent > self extent
+		ifTrue: [ ^ self resize: anExtent using: CV_INTER_LINEAR ].
+	anExtent < self extent
+		ifTrue: [ ^ self resize: anExtent using: CV_INTER_AREA ].
+		
+	^ self resize: anExtent using: CV_INTER_LINEAR
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> resize: anExtent using: anInterpolation [
+	| aResizedImage |
+
+	aResizedImage := GtOpenCvImgproc uniqueInstance
+		createImage: (GtOpenCVSize fromPoint: anExtent)
+		depth: self depth
+		channels: self nChannels.
+
+	GtOpenCvImgproc uniqueInstance
+		resizeSrc: self
+		dest: aResizedImage
+		using: anInterpolation.
+
+	^ aResizedImage autoRelease
+]
+
+{ #category : #'initialize-release' }
+GtOpenCVImage >> resourceData [
+	^ self getHandle
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVImage >> roi [
 	"This method was automatically generated"
@@ -557,9 +620,46 @@ GtOpenCVImage >> roi: anObject [
 	handle pointerAt: OFFSET_ROI put: anObject getHandle.
 ]
 
+{ #category : #'api - converting' }
+GtOpenCVImage >> scaleBy: aPointOrNumber [
+
+	^ self resize: self extent * aPointOrNumber asPoint
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> similar [
+	^ (GtOpenCvImgproc uniqueInstance
+		createImage: self size
+		depth: self depth
+		channels: self nChannels) autoRelease
+]
+
 { #category : #'api - accessing' }
 GtOpenCVImage >> size [
 	^ GtOpenCVSize new width: self width; height: self height
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> threshold: aThreshold [
+	^ self
+		threshold: aThreshold
+		max: 255
+		using: CV_THRESH_BINARY_INV | CV_THRESH_OTSU
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> threshold: aThreshold max: aMaxValue using: thresholdType [
+	| aResult |
+	
+	aResult := self similar.
+	
+	GtOpenCvImgproc uniqueInstance
+		thresholdSrc: self
+		dest: aResult
+		threshold: aThreshold max: aMaxValue
+		type: thresholdType.
+		
+	^ aResult
 ]
 
 { #category : #'accessing structure variables' }
@@ -572,6 +672,24 @@ GtOpenCVImage >> tileInfo [
 GtOpenCVImage >> tileInfo: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_TILEINFO put: anObject getHandle.
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> toBGR [
+	<return: #GtOpenCVImage>
+
+	^ self convertTo: #BGR in: [
+		GtOpenCvImgproc uniqueInstance
+			createImage: self size
+			depth: 8
+			channels: 3 ]
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> toBGRA [
+	<return: #GtOpenCVImage>
+
+	^ self toRGBA
 ]
 
 { #category : #'api - converting' }
@@ -588,6 +706,9 @@ GtOpenCVImage >> toGray [
 { #category : #'api - converting' }
 GtOpenCVImage >> toRGBA [
 	<return: #GtOpenCVImage>
+
+	self colorModel = #BGRA
+		ifTrue: [ ^ self ].
 
 	^ self convertTo: #RGBA in: [
 		GtOpenCvImgproc uniqueInstance

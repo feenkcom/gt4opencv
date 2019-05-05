@@ -19,6 +19,13 @@ GtOpenCVSize class >> fieldsDesc [
 	)
 ]
 
+{ #category : #'instance creation' }
+GtOpenCVSize class >> fromPoint: aPoint [
+	^ self new
+		width: aPoint x asInteger;
+		height: aPoint y asInteger
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVSize >> height [
 	"This method was automatically generated"
