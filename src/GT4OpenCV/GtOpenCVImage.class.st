@@ -236,6 +236,24 @@ GtOpenCVImage >> alphaChannel: anObject [
 	handle signedLongAt: OFFSET_ALPHACHANNEL put: anObject
 ]
 
+{ #category : #extensions }
+GtOpenCVImage >> asForm [
+	| rgba aCanvas aSurface |
+	rgba := self toRGBA.
+
+	aCanvas := MozCanvas extent: rgba extent.
+	aSurface := aCanvas bitmap
+		fromRGBA: rgba imageData
+		extent: rgba extent
+		stride: rgba widthStep.
+	aCanvas fill
+		paint: aSurface;
+		path: aSurface bounds;
+		draw.
+		
+	^ aCanvas asForm
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVImage >> channelSeq_1 [
 	"This method was automatically generated"
@@ -349,7 +367,7 @@ GtOpenCVImage >> colorModel_4: anObject [
 
 { #category : #private }
 GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
-	| cv dest |
+	| cv dest src |
 
 	self colorModel = aModel
 		ifTrue: [ ^ self ].
@@ -357,10 +375,15 @@ GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
 	cv := GtOpenCvImgproc uniqueInstance.
 	dest := aDestinationImageBlock value.
 	
-	cv cvtColorSrc: self dest: dest to: (self convertionTo: aModel).
+	src := dest depth = self depth
+		ifTrue: [ self ]
+		ifFalse: [
+			| anSrc |
+			anSrc := cv createImage: self size depth: dest depth channels: self nChannels.
+			cv convert: self to: anSrc.
+			anSrc ].
 	
-	dest autoRelease.
-	
+	cv cvtColorSrc: src dest: dest to: (self convertionTo: aModel).
 	^ dest
 ]
 
@@ -449,20 +472,9 @@ GtOpenCVImage >> gtPreviewFor: aView [
 		title: 'Live' translated;
 		priority: 10;
 		stencil: [
-			| canvas surface rgba |
-			rgba := self toRGBA.
-			canvas := MozCanvas extent: rgba extent.
-			surface := canvas bitmap
-				fromRGBA: rgba imageData
-				extent: rgba extent
-				stride: rgba widthStep.
-			canvas fill
-				paint: surface;
-				path: surface bounds;
-				draw.
 			BlElement new
-				size: rgba extent;
-				background: canvas asForm;
+				size: self extent;
+				background: self asForm;
 				asScalableElement ]
 ]
 
@@ -600,7 +612,7 @@ GtOpenCVImage >> resize: anExtent using: anInterpolation [
 		dest: aResizedImage
 		using: anInterpolation.
 
-	^ aResizedImage autoRelease
+	^ aResizedImage
 ]
 
 { #category : #'initialize-release' }
@@ -628,10 +640,10 @@ GtOpenCVImage >> scaleBy: aPointOrNumber [
 
 { #category : #'api - converting' }
 GtOpenCVImage >> similar [
-	^ (GtOpenCvImgproc uniqueInstance
+	^ GtOpenCvImgproc uniqueInstance
 		createImage: self size
 		depth: self depth
-		channels: self nChannels) autoRelease
+		channels: self nChannels
 ]
 
 { #category : #'api - accessing' }

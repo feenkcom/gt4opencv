@@ -84,6 +84,8 @@ Class {
 		'CV_GRAY2BGRA',
 		'CV_GRAY2RGB',
 		'CV_GRAY2RGBA',
+		'CV_HIST_ARRAY',
+		'CV_HIST_SPARSE',
 		'CV_HLS2BGR',
 		'CV_HLS2BGR_FULL',
 		'CV_HLS2RGB',
@@ -232,7 +234,8 @@ GtOpenCVConstants class >> initialize [
 	self initializeColorConvertions.
 	self initializeThresholdTypes.
 	self initializeAdaptiveThresholdTypes.
-	self initializeInterpolators
+	self initializeInterpolators.
+	self initializeHistogramTypes
 ]
 
 { #category : #'class initialization' }
@@ -459,6 +462,12 @@ GtOpenCVConstants class >> initializeColorConvertions_2 [
 	CV_BayerRG2RGBA := CV_BayerBG2BGRA.
 	CV_BayerGR2RGBA := CV_BayerGB2BGRA.
 	CV_COLORCVT_MAX :=  143
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeHistogramTypes [
+	CV_HIST_ARRAY := 0.
+	CV_HIST_SPARSE := 1
 ]
 
 { #category : #'class initialization' }

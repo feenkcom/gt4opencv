@@ -1,12 +1,61 @@
 Class {
 	#name : #GtOpenCVLibrary,
 	#superclass : #FFILibrary,
+	#pools : [
+		'GtOpenCVConstants'
+	],
 	#category : #GT4OpenCV
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> convert: aSourceImage to: aDestinationImage [
+	self primConvert: aSourceImage to: aDestinationImage scale: 1 shift: 0
+]
+
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> createHistogram: theDimensions sizes: theSizes ranges: theRanges [
+	^ self
+		createHistogram: theDimensions
+		sizes: theSizes
+		type: CV_HIST_ARRAY
+		ranges: theRanges
+		uniform: true
+]
+
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> createHistogram: theDimensions sizes: theSizes type: aType ranges: theRanges uniform: isUniform [
+	| ffiSizes ffiRanges ffiIsUniform aHistogram ffiSubRanges |
+	
+	ffiSizes := FFIExternalArray externalNewType: 'int' size: theSizes size.
+	ffiSizes atAll: (1 to: theSizes size) putAll: theSizes.
+	
+	ffiRanges := FFIExternalArray externalNewType: 'float*' size: theRanges size.
+	ffiSubRanges := theRanges collect: [ :eachRange |
+		| eachFfiRange |
+		eachFfiRange := FFIExternalArray externalNewType: 'float' size: eachRange size.
+		eachFfiRange atAll: (1 to: eachRange size) putAll: eachRange.
+		eachFfiRange ].
+	ffiSubRanges withIndexDo: [ :eachRange :anIndex | ffiRanges at: anIndex put: eachRange getHandle ].
+	
+	ffiIsUniform := isUniform asBit.
+	
+	aHistogram := self
+		primCreateHistogram: theDimensions
+		sizes: ffiSizes getHandle
+		type: aType
+		ranges: ffiRanges getHandle
+		uniform: ffiIsUniform.
+	
+	ffiSubRanges do: #free.
+	ffiRanges free.
+	ffiSizes free.
+	
+	^ aHistogram autoRelease
+]
+
+{ #category : #'opencv - instance creation' }
 GtOpenCVLibrary >> createImage: aSize depth: depth channels: channels [
-	^ self ffiCall: #(GtOpenCVImage* cvCreateImage(GtOpenCVSize aSize, int depth, int channels))
+	^ (self primCreateImage: aSize depth: depth channels: channels) autoRelease
 ]
 
 { #category : #'accessing platform' }
@@ -18,7 +67,7 @@ GtOpenCVLibrary >> detectLibrary: aFileName [
 			ifNone: [ aFileName ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'opencv - accessing' }
 GtOpenCVLibrary >> getSize: anImage [
 	^ self primGetSize: anImage getHandle
 ]
@@ -33,9 +82,45 @@ GtOpenCVLibrary >> moduleName [
 	^ 'libopencv_world.3.4.6'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primConvert: aSource to: aDestination scale: aScale shift: aShift [
+	^ self ffiCall: #(void cvConvertScale (GtOpenCVImage *aSource, GtOpenCVImage *aDestination, double aScale, double aShift))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primCreateHistogram: theDimensions sizes: theSizes type: aType ranges: theRanges uniform: isUniform [
+	^ self ffiCall: #(GtOpenCVHistogram cvCreateHist(int theDimensions, void* theSizes, int aType, void* theRanges, int isUniform))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primCreateImage: aSize depth: depth channels: channels [
+	^ self ffiCall: #(GtOpenCVImage* cvCreateImage(GtOpenCVSize aSize, int depth, int channels))
+]
+
+{ #category : #'private - ffi' }
 GtOpenCVLibrary >> primGetSize: anImage [
 	^ self ffiCall: #(GtOpenCVSize cvGetSize(void* anImage))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primSplit: aSource dest0: dest0 dest1: dest1 dest2: dest2 dest3: dest3 [
+	^ self ffiCall: #(void cvSplit (GtOpenCVImage *aSource, GtOpenCVImage *dest0, GtOpenCVImage *dest1, GtOpenCVImage *dest2, GtOpenCVImage *dest3))
+]
+
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> split: anImage into: theOutputImages [
+	| dest0 dest1 dest2 dest3 |
+	
+	dest0 := dest1 := dest2 := dest3 := nil.
+	dest0 := theOutputImages first.
+	theOutputImages size > 1
+		ifTrue: [ dest1 := theOutputImages second ].
+	theOutputImages size > 2
+		ifTrue: [ dest2 := theOutputImages third ].
+	theOutputImages size > 3
+		ifTrue: [ dest3 := theOutputImages fourth ].
+
+	self primSplit: anImage dest0: dest0 dest1: dest1 dest2: dest2 dest3: dest3
 ]
 
 { #category : #'accessing platform' }
