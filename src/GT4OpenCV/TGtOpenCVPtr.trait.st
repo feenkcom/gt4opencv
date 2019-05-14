@@ -1,6 +1,6 @@
 Trait {
 	#name : #TGtOpenCVPtr,
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
 
 { #category : #finalization }

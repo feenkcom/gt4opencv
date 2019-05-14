@@ -1,7 +1,7 @@
 Class {
 	#name : #GtOpenCvHighgui,
 	#superclass : #GtOpenCVLibrary,
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
 
 { #category : #'as yet unclassified' }

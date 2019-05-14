@@ -3,7 +3,7 @@ Class {
 	#superclass : #FFIExternalObject,
 	#traits : 'TGtOpenCVPtr',
 	#classTraits : 'TGtOpenCVPtr classTrait',
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-!OpenCV'
 }
 
 { #category : #'private - ffi' }

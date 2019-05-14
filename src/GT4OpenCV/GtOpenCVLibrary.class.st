@@ -4,8 +4,23 @@ Class {
 	#pools : [
 		'GtOpenCVConstants'
 	],
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
+
+{ #category : #installation }
+GtOpenCVLibrary class >> install [
+	<script: 'self install'>
+	| installer |
+
+	installer := GtLibraryInstaller new.
+	installer library: 'OpenCV'.
+	installer version: '3.4.6'.
+	installer icon: (Form extent: 1@1 depth: 32).
+	installer binary: 'libopencv_world'.
+	installer url: 'https://dl.feenk.com/{library}/{platform}/{version}/{arch}/{binary}.{version}.{extension}'.
+
+	installer run
+]
 
 { #category : #'opencv - core' }
 GtOpenCVLibrary >> convert: aSourceImage to: aDestinationImage [
@@ -79,7 +94,7 @@ GtOpenCVLibrary >> macModuleName [
 
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> moduleName [
-	^ 'libopencv_world.3.4.6'
+	^ 'libopencv_world'
 ]
 
 { #category : #'private - ffi' }

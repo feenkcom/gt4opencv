@@ -1,12 +1,12 @@
 Class {
 	#name : #GtOpenCvVideoIO,
 	#superclass : #GtOpenCVLibrary,
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
 
 { #category : #'as yet unclassified' }
 GtOpenCvVideoIO >> createCameraCapture: index [
-	^ self ffiCall: #(void* cvCreateCameraCapture (int index))
+	^ self ffiCall: #(GtOpenCVCameraCapture cvCreateCameraCapture (int index))
 ]
 
 { #category : #'as yet unclassified' }
@@ -16,7 +16,7 @@ GtOpenCvVideoIO >> grabFrame: capture [
 
 { #category : #'as yet unclassified' }
 GtOpenCvVideoIO >> queryFrame: capture [
-	^ self ffiCall: #(GtOpenCVImage* cvQueryFrame (void* capture))
+	^ self ffiCall: #(GtOpenCVImage* cvQueryFrame (GtOpenCVCameraCapture capture))
 ]
 
 { #category : #'as yet unclassified' }

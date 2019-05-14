@@ -226,7 +226,7 @@ Class {
 		'CV_YUV420sp2RGBA',
 		'CV_mRGBA2RGBA'
 	],
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
 
 { #category : #'class initialization' }

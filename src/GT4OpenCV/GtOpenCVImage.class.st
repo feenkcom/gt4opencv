@@ -42,7 +42,7 @@ Class {
 	#pools : [
 		'GtOpenCVConstants'
 	],
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-!OpenCV'
 }
 
 { #category : #resources }

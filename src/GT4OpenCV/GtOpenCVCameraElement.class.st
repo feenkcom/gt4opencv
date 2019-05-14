@@ -2,14 +2,25 @@ Class {
 	#name : #GtOpenCVCameraElement,
 	#superclass : #BlElement,
 	#instVars : [
-		'video',
-		'capture',
 		'image',
 		'updater',
-		'filters'
+		'filters',
+		'camera'
 	],
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Elements'
 }
+
+{ #category : #'instance creation' }
+GtOpenCVCameraElement class >> on: aCameraCapture [
+	^ self basicNew
+		camera: aCameraCapture;
+		initialize
+]
+
+{ #category : #accessing }
+GtOpenCVCameraElement >> camera: aCameraCapture [
+	camera := aCameraCapture
+]
 
 { #category : #drawing }
 GtOpenCVCameraElement >> drawOnSpartaCanvas: aCanvas [
@@ -38,9 +49,8 @@ GtOpenCVCameraElement >> filter: aFilter [
 { #category : #initialization }
 GtOpenCVCameraElement >> initialize [
 	super initialize.
-	
-	video := GtOpenCvVideoIO uniqueInstance.
-	capture := video createCameraCapture: 0.
+
+	camera ifNil: [ camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 0 ].
 	filters := OrderedCollection new.
 	
 	updater := self newTask
@@ -51,7 +61,7 @@ GtOpenCVCameraElement >> newTask [
 	^ BlRepeatedTaskAction new
 		delay: 0;
 		action: [
-			image := video queryFrame: capture.
+			image := camera captureFrame.
 			filters do: [ :aFilter | image := aFilter value: image ].
 			
 			self size: image width @ image height.

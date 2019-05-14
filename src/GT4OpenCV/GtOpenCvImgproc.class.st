@@ -1,7 +1,7 @@
 Class {
 	#name : #GtOpenCvImgproc,
 	#superclass : #GtOpenCVLibrary,
-	#category : #GT4OpenCV
+	#category : #'GT4OpenCV-Library'
 }
 
 { #category : #'opencv - api' }
