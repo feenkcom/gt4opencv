@@ -4,14 +4,18 @@ Class {
 	#instVars : [
 		'parent',
 		'children',
-		'rectangle'
+		'rectangle',
+		'contour'
 	],
 	#category : #'GT4OpenCV-!OpenCV'
 }
 
 { #category : #'instance creation' }
 GtOpenCVContourTreeNode class >> fromOpenCVContour: anOpenCVContour [
-	^ self new rectangle: anOpenCVContour rect asRectangle
+	^ self new
+		rectangle: anOpenCVContour rect asRectangle;
+		contour: anOpenCVContour;
+		yourself
 ]
 
 { #category : #adding }
@@ -30,6 +34,18 @@ GtOpenCVContourTreeNode >> allContoursDo: aBlock [
 { #category : #accessing }
 GtOpenCVContourTreeNode >> children [
 	^ children
+]
+
+{ #category : #accessing }
+GtOpenCVContourTreeNode >> contour [
+	<return: #GtOpenCVContour>
+
+	^ contour
+]
+
+{ #category : #accessing }
+GtOpenCVContourTreeNode >> contour: anObject [
+	contour := anObject
 ]
 
 { #category : #initialization }

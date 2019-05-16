@@ -37,6 +37,16 @@ GtOpenCvImgproc >> calcHistogram: aHistogram images: theImages [
 ]
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> contourArea: aContour slice: aSlice oriented: isOriented [
+	<return: #Number>
+
+	^ self
+		primContourArea: aContour
+		slice: aSlice
+		oriented: isOriented asBit
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> cvtColorSrc: aSourceImage dest: aDestinationImage to: aFormat [
 	^ self ffiCall: #(void cvCvtColor (GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestinationImage, int aFormat))
 ]
@@ -54,10 +64,10 @@ GtOpenCvImgproc >> findContours: anImage [
 		contours: aFirstContour
 		headerSize: GtOpenCVContour structureSize
 		mode: CV_RETR_TREE
-		method: CV_CHAIN_APPROX_SIMPLE
+		method: CV_LINK_RUNS
 		offset: (GtOpenCVPoint fromPoint: 0@0).
 	
-	^ GtOpenCVContourTree fromOpenCVContour: (GtOpenCVContour fromHandle: aFirstContour)
+	^ (GtOpenCVContourTree fromOpenCVContour: (GtOpenCVContour fromHandle: aFirstContour)) storage: aMemoryStorage
 ]
 
 { #category : #'private - ffi' }
@@ -75,6 +85,14 @@ GtOpenCvImgproc >> primCalcHist: aHistogram images: theImages accumulate: should
 		GtOpenCVHistogram aHistogram,
 		int shouldAccumulate,
 		void* aMask))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCvImgproc >> primContourArea: aContour slice: aSlice oriented: isOriented [
+	^ self ffiCall: #(double cvContourArea (
+		GtOpenCVContour* aContour,
+		GtOpenCVSlice aSlice,
+		int isOriented))
 ]
 
 { #category : #'private - ffi' }

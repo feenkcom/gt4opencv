@@ -1,7 +1,9 @@
 "
+! Moldable Object Detection with OpenCV
+
 First we connect to a camera
 [[[show=gtPreviewFor:|height=200
-camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 1.	
+camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 0.	
 ]]]
 
 and capture each frame (image) from that camera for further process

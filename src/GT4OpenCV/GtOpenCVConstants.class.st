@@ -158,6 +158,7 @@ Class {
 		'CV_THRESH_TOZERO_INV',
 		'CV_THRESH_TRIANGLE',
 		'CV_THRESH_TRUNC',
+		'CV_WHOLE_SEQ_END_INDEX',
 		'CV_XYZ2BGR',
 		'CV_XYZ2RGB',
 		'CV_YCrCb2BGR',
@@ -248,7 +249,8 @@ GtOpenCVConstants class >> initialize [
 	self initializeInterpolators.
 	self initializeHistogramTypes.
 	self initializeChainMethods.
-	self initializeRetrModes
+	self initializeRetrModes.
+	self initializeSeqConstants
 ]
 
 { #category : #'class initialization' }
@@ -509,6 +511,11 @@ GtOpenCVConstants class >> initializeRetrModes [
 	CV_RETR_CCOMP := 2.
 	CV_RETR_TREE := 3.
 	CV_RETR_FLOODFILL := 4
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeSeqConstants [
+	CV_WHOLE_SEQ_END_INDEX := 16r3fffffff
 ]
 
 { #category : #'class initialization' }

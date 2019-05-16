@@ -79,6 +79,14 @@ GtOpenCVContour class >> fieldsDesc [
 	)
 ]
 
+{ #category : #'opencv - api' }
+GtOpenCVContour >> area [
+	^ GtOpenCvImgproc uniqueInstance
+		contourArea: self
+		slice: GtOpenCVSlice whole
+		oriented: false
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVContour >> block_max [
 	"This method was automatically generated"

@@ -1,8 +1,9 @@
 Class {
 	#name : #GtOpenCVContourTree,
-	#superclass : #Object,
+	#superclass : #Collection,
 	#instVars : [
-		'children'
+		'children',
+		'storage'
 	],
 	#category : #'GT4OpenCV-!OpenCV'
 }
@@ -52,6 +53,14 @@ GtOpenCVContourTree class >> processNode: aTreeNode ofContour: anOpenCVContour i
 ]
 
 { #category : #adding }
+GtOpenCVContourTree >> add: newObject [ 
+	"Include newObject as one of the receiver's elements. Answer newObject. 
+	ArrayedCollections cannot respond to this message."
+
+	self addChild: newObject
+]
+
+{ #category : #adding }
 GtOpenCVContourTree >> addChild: aNode [
 	children add: aNode.
 	aNode parent: self
@@ -65,6 +74,13 @@ GtOpenCVContourTree >> allContoursDo: aBlock [
 { #category : #accessing }
 GtOpenCVContourTree >> children [
 	^ children
+]
+
+{ #category : #enumerating }
+GtOpenCVContourTree >> do: aBlock [ 
+	"Evaluate aBlock with each of the receiver's elements as the argument."
+
+	self allContoursDo: aBlock
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -104,4 +120,25 @@ GtOpenCVContourTree >> paintTreeWith: view [
 { #category : #accessing }
 GtOpenCVContourTree >> parent [
 	^ nil
+]
+
+{ #category : #removing }
+GtOpenCVContourTree >> remove: oldObject ifAbsent: anExceptionBlock [ 
+	"Remove oldObject from the receiver's elements. If several of the 
+	elements are equal to oldObject, only one is removed. If no element is 
+	equal to oldObject, answer the result of evaluating anExceptionBlock. 
+	Otherwise, answer the argument, oldObject. ArrayedCollections cannot 
+	respond to this message."
+
+	self shouldNotImplement
+]
+
+{ #category : #accessing }
+GtOpenCVContourTree >> storage [
+	^ storage
+]
+
+{ #category : #accessing }
+GtOpenCVContourTree >> storage: anObject [
+	storage := anObject
 ]
