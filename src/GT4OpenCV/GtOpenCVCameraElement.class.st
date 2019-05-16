@@ -28,7 +28,8 @@ GtOpenCVCameraElement >> drawOnSpartaCanvas: aCanvas [
 	
 	super drawOnSpartaCanvas: aCanvas.
 
-	image ifNil: [ ^ self ].
+	(image isNil or: [ image isNull ])
+		ifTrue: [ ^ self ].
 
 	surface := aCanvas bitmap
 		fromBGR: image imageData
@@ -59,12 +60,14 @@ GtOpenCVCameraElement >> initialize [
 { #category : #initialization }
 GtOpenCVCameraElement >> newTask [
 	^ BlRepeatedTaskAction new
-		delay: 0;
+		delay: 64 milliSeconds;
 		action: [
 			image := camera captureFrame.
-			filters do: [ :aFilter | image := aFilter value: image ].
-			
-			self size: image width @ image height.
+			image isNull
+				ifTrue: [ self size: 0@0 ]
+				ifFalse: [
+					filters do: [ :aFilter | image := aFilter glamourValueWithArgs: { image . self } ].
+					self size: image width @ image height ].
 			self invalidate ]
 ]
 

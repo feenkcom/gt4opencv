@@ -32,11 +32,32 @@ GtOpenCvImgproc >> calcHistogram: aHistogram images: theImages [
 		accumulate: 0 mask: nil.
 		
 	ffiImages free.
+	
+	aHistogram images: theImages
 ]
 
 { #category : #'opencv - api' }
 GtOpenCvImgproc >> cvtColorSrc: aSourceImage dest: aDestinationImage to: aFormat [
 	^ self ffiCall: #(void cvCvtColor (GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestinationImage, int aFormat))
+]
+
+{ #category : #'opencv - api' }
+GtOpenCvImgproc >> findContours: anImage [
+	| aFirstContour aMemoryStorage |
+	
+	aMemoryStorage := self createMemStorage.
+	aFirstContour := ExternalAddress new.
+
+	self
+		primFindContours: anImage
+		storage: aMemoryStorage
+		contours: aFirstContour
+		headerSize: GtOpenCVContour structureSize
+		mode: CV_RETR_TREE
+		method: CV_CHAIN_APPROX_SIMPLE
+		offset: (GtOpenCVPoint fromPoint: 0@0).
+	
+	^ GtOpenCVContourTree fromOpenCVContour: (GtOpenCVContour fromHandle: aFirstContour)
 ]
 
 { #category : #'private - ffi' }
@@ -54,6 +75,18 @@ GtOpenCvImgproc >> primCalcHist: aHistogram images: theImages accumulate: should
 		GtOpenCVHistogram aHistogram,
 		int shouldAccumulate,
 		void* aMask))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCvImgproc >> primFindContours: anImage storage: aStorage contours: theContours headerSize: aHeaderSize mode: aMode method: aMethod offset: anOffset [
+	^ self ffiCall: #(int cvFindContours (
+		GtOpenCVImage* anImage,
+		GtOpenCVMemStorage aStorage,
+		void** theContours,
+		int aHeaderSize,
+		int aMode,
+		int aMethod,
+		GtOpenCVPoint anOffset))
 ]
 
 { #category : #'opencv - api' }

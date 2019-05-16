@@ -237,6 +237,13 @@ GtOpenCVImage >> alphaChannel: anObject [
 ]
 
 { #category : #extensions }
+GtOpenCVImage >> asElement [
+	^ BlElement new
+		size: self extent;
+		background: self asForm
+]
+
+{ #category : #extensions }
 GtOpenCVImage >> asForm [
 	| rgba aCanvas aSurface |
 	rgba := self toRGBA.
@@ -397,7 +404,10 @@ GtOpenCVImage >> convertionTable [
 		(#BGRA -> #GRAY) -> CV_BGRA2GRAY.
 		(#BGRA -> #RGBA) -> CV_BGRA2RGBA.
 		(#BGRA -> #BGR) -> CV_BGRA2BGR.
-		(#GRAY -> #BGR) -> CV_GRAY2BGR
+		(#GRAY -> #BGR) -> CV_GRAY2BGR.
+		(#BGR -> #HSV) -> CV_BGR2HSV.
+		(#HSV -> #BGR) -> CV_HSV2BGR.
+		(#HSV -> #RGB) -> CV_HSV2RGB.
 	} asDictionary
 ]
 
@@ -471,11 +481,7 @@ GtOpenCVImage >> gtPreviewFor: aView [
 	^ aView explicit
 		title: 'Live' translated;
 		priority: 10;
-		stencil: [
-			BlElement new
-				size: self extent;
-				background: self asForm;
-				asScalableElement ]
+		stencil: [ self asElement asScalableElement ]
 ]
 
 { #category : #'accessing structure variables' }
@@ -652,11 +658,46 @@ GtOpenCVImage >> size [
 ]
 
 { #category : #'api - converting' }
+GtOpenCVImage >> splitChannels: anArrayOfChannels [
+	"image split: #(0 1 2)"
+	| channelsDictionary channels |
+
+	channelsDictionary := anArrayOfChannels collect: [ :eachChannel |
+		| aChannelIndex aChannelName |
+		
+		aChannelIndex := (eachChannel isKindOf: Association)
+			ifTrue: [ eachChannel key ]
+			ifFalse: [ eachChannel ]. 
+			
+		aChannelName := eachChannel value asString.
+		
+		aChannelIndex -> (GtOpenCVImageChannel new
+			image: (GtOpenCvImgproc uniqueInstance
+				createImage: self size
+				depth: self depth
+				channels: 1);
+			name: aChannelName;
+			index: aChannelIndex) ] as: OrderedDictionary.
+		
+	GtOpenCvImgproc uniqueInstance
+		split: self
+		into: { 
+			channelsDictionary at: 0 ifPresent: #image ifAbsent: nil.
+			channelsDictionary at: 1 ifPresent: #image ifAbsent: nil.
+			channelsDictionary at: 2 ifPresent: #image ifAbsent: nil.
+			channelsDictionary at: 3 ifPresent: #image  ifAbsent: nil }.
+			
+	channels := GtOpenCVImageChannels new.
+	channelsDictionary valuesDo: [ :each | channels add: each ].
+	^ channels
+]
+
+{ #category : #'api - converting' }
 GtOpenCVImage >> threshold: aThreshold [
 	^ self
 		threshold: aThreshold
 		max: 255
-		using: CV_THRESH_BINARY_INV | CV_THRESH_OTSU
+		using: CV_THRESH_BINARY_INV" | CV_THRESH_OTSU"
 ]
 
 { #category : #'api - converting' }
@@ -716,11 +757,25 @@ GtOpenCVImage >> toGray [
 ]
 
 { #category : #'api - converting' }
+GtOpenCVImage >> toHSV [
+	<return: #GtOpenCVImage>
+
+	^ self convertTo: #HSV in: [
+		GtOpenCvImgproc uniqueInstance
+			createImage: self size
+			depth: 8
+			channels: 3 ]
+]
+
+{ #category : #'api - converting' }
 GtOpenCVImage >> toRGBA [
 	<return: #GtOpenCVImage>
 
 	self colorModel = #BGRA
 		ifTrue: [ ^ self ].
+		
+	self colorModel = #HSV
+		ifTrue: [ ^ self toBGR toRGBA ].
 
 	^ self convertTo: #RGBA in: [
 		GtOpenCvImgproc uniqueInstance

@@ -73,6 +73,20 @@ GtOpenCVLibrary >> createImage: aSize depth: depth channels: channels [
 	^ (self primCreateImage: aSize depth: depth channels: channels) autoRelease
 ]
 
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> createMemStorage [
+	^ self primCreateMemStorage: 0
+]
+
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> createSeq: anElementType storage: aMemStorage [
+	^ self
+		primCreateSeq: 0
+		headerSize: GtOpenCVSeq structureSize
+		elemSize: GtOpenCVContour structureSize
+		storage: aMemStorage
+]
+
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> detectLibrary: aFileName [
 	^ ({ Smalltalk imageDirectory . Smalltalk vmDirectory . FileSystem workingDirectory }
@@ -113,8 +127,27 @@ GtOpenCVLibrary >> primCreateImage: aSize depth: depth channels: channels [
 ]
 
 { #category : #'private - ffi' }
+GtOpenCVLibrary >> primCreateMemStorage: aBlockSize [
+	^ self ffiCall: #(GtOpenCVMemStorage cvCreateMemStorage(int aBlockSize))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primCreateSeq: theSeqFlags headerSize: aHeaderSize elemSize: anElementSize storage: aMemStorage [
+	^ self ffiCall: #(GtOpenCVSeq* cvCreateSeq (
+		int theSeqFlags,
+		size_t aHeaderSize,
+		size_t anElementSize,
+		GtOpenCVMemStorage aMemStorage))
+]
+
+{ #category : #'private - ffi' }
 GtOpenCVLibrary >> primGetSize: anImage [
 	^ self ffiCall: #(GtOpenCVSize cvGetSize(void* anImage))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primReleaseMemStorage: aMemStorage [
+	^ self ffiCall: #(void cvReleaseMemStorage(void* aMemStorage))
 ]
 
 { #category : #'private - ffi' }
@@ -125,15 +158,11 @@ GtOpenCVLibrary >> primSplit: aSource dest0: dest0 dest1: dest1 dest2: dest2 des
 { #category : #'opencv - core' }
 GtOpenCVLibrary >> split: anImage into: theOutputImages [
 	| dest0 dest1 dest2 dest3 |
-	
-	dest0 := dest1 := dest2 := dest3 := nil.
-	dest0 := theOutputImages first.
-	theOutputImages size > 1
-		ifTrue: [ dest1 := theOutputImages second ].
-	theOutputImages size > 2
-		ifTrue: [ dest2 := theOutputImages third ].
-	theOutputImages size > 3
-		ifTrue: [ dest3 := theOutputImages fourth ].
+
+	dest0 := theOutputImages at: 1 ifAbsent: nil.
+	dest1 := theOutputImages at: 2 ifAbsent: nil.
+	dest2 := theOutputImages at: 3 ifAbsent: nil.
+	dest3 := theOutputImages at: 4 ifAbsent: nil.
 
 	self primSplit: anImage dest0: dest0 dest1: dest1 dest2: dest2 dest3: dest3
 ]

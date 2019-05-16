@@ -1,19 +1,20 @@
 "
 First we connect to a camera
-
-[[[
-camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 0.	
+[[[show=gtPreviewFor:|height=200
+camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 1.	
 ]]]
 
-then for process captured frames (images) from the camera
-
-[[[
-frame := camera captureFrame.
+and capture each frame (image) from that camera for further process
+[[[show=gtPreviewFor:|height=200
+frame := camera captureFrame toRGBA.
 ]]]
 
-[[[
-1+1
+once frame is captured we split it in channels to compute a histogram out of them
+[[[show=gtPreviewFor:|height=100
+channels := frame splitChannels: { 0 -> #Red . 1 -> #Green . 2 -> #Blue }.
 ]]]
+
+
 "
 Class {
 	#name : #GtOpenCVHandDetection,

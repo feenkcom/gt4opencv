@@ -77,6 +77,11 @@ Class {
 		'CV_BayerRG2RGBA',
 		'CV_BayerRG2RGB_EA',
 		'CV_BayerRG2RGB_VNG',
+		'CV_CHAIN_APPROX_NONE',
+		'CV_CHAIN_APPROX_SIMPLE',
+		'CV_CHAIN_APPROX_TC89_KCOS',
+		'CV_CHAIN_APPROX_TC89_L1',
+		'CV_CHAIN_CODE',
 		'CV_COLORCVT_MAX',
 		'CV_GRAY2BGR',
 		'CV_GRAY2BGR555',
@@ -101,6 +106,7 @@ Class {
 		'CV_INTER_NN',
 		'CV_LBGR2Lab',
 		'CV_LBGR2Luv',
+		'CV_LINK_RUNS',
 		'CV_LRGB2Lab',
 		'CV_LRGB2Luv',
 		'CV_Lab2BGR',
@@ -111,6 +117,11 @@ Class {
 		'CV_Luv2LBGR',
 		'CV_Luv2LRGB',
 		'CV_Luv2RGB',
+		'CV_RETR_CCOMP',
+		'CV_RETR_EXTERNAL',
+		'CV_RETR_FLOODFILL',
+		'CV_RETR_LIST',
+		'CV_RETR_TREE',
 		'CV_RGB2BGR',
 		'CV_RGB2BGR555',
 		'CV_RGB2BGR565',
@@ -235,13 +246,25 @@ GtOpenCVConstants class >> initialize [
 	self initializeThresholdTypes.
 	self initializeAdaptiveThresholdTypes.
 	self initializeInterpolators.
-	self initializeHistogramTypes
+	self initializeHistogramTypes.
+	self initializeChainMethods.
+	self initializeRetrModes
 ]
 
 { #category : #'class initialization' }
 GtOpenCVConstants class >> initializeAdaptiveThresholdTypes [
 	CV_ADAPTIVE_THRESH_MEAN_C := 0.
 	CV_ADAPTIVE_THRESH_GAUSSIAN_C := 1
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeChainMethods [
+	CV_CHAIN_CODE := 0.
+	CV_CHAIN_APPROX_NONE := 1.
+	CV_CHAIN_APPROX_SIMPLE := 2.
+	CV_CHAIN_APPROX_TC89_L1 := 3.
+	CV_CHAIN_APPROX_TC89_KCOS := 4.
+	CV_LINK_RUNS := 5
 ]
 
 { #category : #'class initialization' }
@@ -477,6 +500,15 @@ GtOpenCVConstants class >> initializeInterpolators [
 	CV_INTER_CUBIC := 2.
 	CV_INTER_AREA := 3.
 	CV_INTER_LANCZOS4 := 4
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeRetrModes [
+	CV_RETR_EXTERNAL := 0.
+	CV_RETR_LIST := 1.
+	CV_RETR_CCOMP := 2.
+	CV_RETR_TREE := 3.
+	CV_RETR_FLOODFILL := 4
 ]
 
 { #category : #'class initialization' }
