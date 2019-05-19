@@ -22,6 +22,11 @@ GtOpenCVLibrary class >> install [
 	installer run
 ]
 
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> cloneImage: aSourceImage [
+	^ (self primCloneImage: aSourceImage) autoRelease
+]
+
 { #category : #'opencv - core' }
 GtOpenCVLibrary >> convert: aSourceImage to: aDestinationImage [
 	self primConvert: aSourceImage to: aDestinationImage scale: 1 shift: 0
@@ -109,6 +114,11 @@ GtOpenCVLibrary >> macModuleName [
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> moduleName [
 	^ 'libopencv_world'
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primCloneImage: aSourceImage [
+	^ self ffiCall: #(GtOpenCVImage* cvCloneImage(GtOpenCVImage* aSourceImage))
 ]
 
 { #category : #'private - ffi' }

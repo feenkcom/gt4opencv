@@ -41,6 +41,9 @@ Class {
 		'CV_BGRA2YUV_I420',
 		'CV_BGRA2YUV_IYUV',
 		'CV_BGRA2YUV_YV12',
+		'CV_BILATERAL',
+		'CV_BLUR',
+		'CV_BLUR_NO_SCALE',
 		'CV_BayerBG2BGR',
 		'CV_BayerBG2BGRA',
 		'CV_BayerBG2BGR_EA',
@@ -83,6 +86,7 @@ Class {
 		'CV_CHAIN_APPROX_TC89_L1',
 		'CV_CHAIN_CODE',
 		'CV_COLORCVT_MAX',
+		'CV_GAUSSIAN',
 		'CV_GRAY2BGR',
 		'CV_GRAY2BGR555',
 		'CV_GRAY2BGR565',
@@ -117,6 +121,7 @@ Class {
 		'CV_Luv2LBGR',
 		'CV_Luv2LRGB',
 		'CV_Luv2RGB',
+		'CV_MEDIAN',
 		'CV_RETR_CCOMP',
 		'CV_RETR_EXTERNAL',
 		'CV_RETR_FLOODFILL',
@@ -250,7 +255,8 @@ GtOpenCVConstants class >> initialize [
 	self initializeHistogramTypes.
 	self initializeChainMethods.
 	self initializeRetrModes.
-	self initializeSeqConstants
+	self initializeSeqConstants.
+	self initializeSmoothMethods
 ]
 
 { #category : #'class initialization' }
@@ -516,6 +522,15 @@ GtOpenCVConstants class >> initializeRetrModes [
 { #category : #'class initialization' }
 GtOpenCVConstants class >> initializeSeqConstants [
 	CV_WHOLE_SEQ_END_INDEX := 16r3fffffff
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeSmoothMethods [
+	CV_BLUR_NO_SCALE := 0.
+	CV_BLUR := 1.
+	CV_GAUSSIAN := 2.
+	CV_MEDIAN := 3.
+	CV_BILATERAL := 4
 ]
 
 { #category : #'class initialization' }

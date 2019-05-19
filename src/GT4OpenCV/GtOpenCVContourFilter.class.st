@@ -1,24 +1,21 @@
 Class {
 	#name : #GtOpenCVContourFilter,
 	#superclass : #Object,
-	#instVars : [
-		'limitBlock'
-	],
 	#category : #'GT4OpenCV-Examples'
 }
 
 { #category : #glamour }
 GtOpenCVContourFilter >> glamourValueWithArgs: theArgs [
-	| anImage anElement threshold contours maxContour aLimit |
+	| anImage anElement contours maxContour aCopy |
 	
 	anImage := theArgs first.
 	anElement := theArgs second.
-
-	aLimit := limitBlock value.
 	
-	threshold := anImage threshold: aLimit.
-	contours := GtOpenCvImgproc uniqueInstance findContours: threshold.
+	aCopy := anImage clone.
+	contours := GtOpenCvImgproc uniqueInstance findContours: aCopy.
 	maxContour := contours detectMax: [ :each | each contour area ].
+	maxContour
+		ifNil: [ ^ anImage ].
 
 	anElement removeChildren.
 	contours allContoursDo: [ :each |
@@ -35,17 +32,5 @@ GtOpenCVContourFilter >> glamourValueWithArgs: theArgs [
 		size: maxContour rectangle extent;
 		border: (BlBorder paint: Color red width: 1)).
 
-	^ anImage threshold: aLimit.
-]
-
-{ #category : #initialization }
-GtOpenCVContourFilter >> initialize [
-	super initialize.
-	
-	limitBlock := 160
-]
-
-{ #category : #accessing }
-GtOpenCVContourFilter >> limit: anObject [
-	limitBlock := anObject
+	^ anImage
 ]

@@ -113,6 +113,18 @@ GtOpenCvImgproc >> resizeSrc: aSourceImage dest: aDestinationImage using: anInte
 ]
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> smooth: aSourceImage dest: aDestinationImage type: smoothtype size1: size1 size2: size2 sigma1: sigma1 sigma2: sigma2 [
+	^ self ffiCall: #(void cvSmooth (
+		GtOpenCVImage* aSourceImage,
+		GtOpenCVImage* aDestinationImage,
+		int smoothtype,
+		int size1,
+		int size2,
+		double sigma1,
+		double sigma2))
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> thresholdSrc: aSourceImage dest: aDestinationImage threshold: threshold max: aMaxValue type: thresholdType [
 	^ self ffiCall: #(void cvThreshold (
 		GtOpenCVImage* aSourceImage,

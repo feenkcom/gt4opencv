@@ -309,6 +309,11 @@ GtOpenCVImage >> channelSeq_4: anObject [
 	handle unsignedCharAt: OFFSET_CHANNELSEQ_4 put: anObject
 ]
 
+{ #category : #'api - converting' }
+GtOpenCVImage >> clone [
+	^ GtOpenCVLibrary uniqueInstance cloneImage: self
+]
+
 { #category : #'api - accessing' }
 GtOpenCVImage >> colorModel [
 	<return: #String>
@@ -455,6 +460,49 @@ GtOpenCVImage >> extent [
 { #category : #resources }
 GtOpenCVImage >> ffiLibraryName [
 	^ self class ffiLibraryName
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> gaussianBlur: aKernelSize [
+	"aSize x is the aperture width. Must be a positive odd number (1, 3, 5, ...).
+	aSize y is the aperture height. Must be a positive odd number (1, 3, 5, ...).
+	Sigma will be computed based on the kernel size"
+
+	^ self gaussianBlur: aKernelSize sigma: 0
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> gaussianBlur: aKernelSize sigma: aSigma [
+	"aSize x is the aperture width. Must be a positive odd number (1, 3, 5, ...).
+	aSize y is the aperture height. Must be a positive odd number (1, 3, 5, ...).
+	aSigma may specify Gaussian σ (standard deviation). If it is zero, it is calculated from the kernel size.
+	Using standard sigma for small kernels ( 3×3 to 7×7 ) gives better speed."
+	| aResult |
+	
+	self
+		assert: [ aKernelSize >= 0 asPoint ]
+		description: [ 'Aperture must be a positive number' ].
+	
+	self
+		assert: [ aKernelSize x odd ]
+		description: [ 'Aperture width must be a positive odd number' ].
+		
+	self
+		assert: [ aKernelSize y odd ]
+		description: [ 'Aperture width must be a positive odd number' ].
+	
+	aResult := self similar.
+	
+	GtOpenCvImgproc uniqueInstance
+		smooth: self
+		dest: aResult
+		type: CV_GAUSSIAN
+		size1: aKernelSize x
+		size2: aKernelSize y
+		sigma1: aSigma
+		sigma2: 0.
+
+	^ aResult
 ]
 
 { #category : #extensions }
