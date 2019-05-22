@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> boundingRect: aContour update: shouldUpdate [
+	^ (self primBoundingRect: aContour update: shouldUpdate asBit) asRectangle
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> calcBackProject: aBackProject images: theImages histogram: aHistogram [ 
 	| ffiImages |
 	
@@ -47,6 +52,24 @@ GtOpenCvImgproc >> contourArea: aContour slice: aSlice oriented: isOriented [
 ]
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> convexHull: aContour orientation: orientation returnPoints: shouldReturnPoints [
+
+	^ self
+		primConvexHull: aContour
+		storage: nil
+		orientation: orientation
+		returnPoints: shouldReturnPoints asBit
+]
+
+{ #category : #'opencv - api' }
+GtOpenCvImgproc >> convexityDefects: aContour hull: aConvexHull [
+	^ self
+		primConvexityDefects: aContour
+		hull: aConvexHull
+		storage: nil
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> cvtColorSrc: aSourceImage dest: aDestinationImage to: aFormat [
 	^ self ffiCall: #(void cvCvtColor (GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestinationImage, int aFormat))
 ]
@@ -68,6 +91,13 @@ GtOpenCvImgproc >> findContours: anImage [
 		offset: (GtOpenCVPoint fromPoint: 0@0).
 	
 	^ (GtOpenCVContourTree fromOpenCVContour: (GtOpenCVContour fromHandle: aFirstContour)) storage: aMemoryStorage
+]
+
+{ #category : #'private - ffi' }
+GtOpenCvImgproc >> primBoundingRect: aContour update: shouldUpdate [
+	^ self ffiCall: #(GtOpenCVRect cvBoundingRect (
+		GtOpenCVContour* aContour,
+		int shouldUpdate))
 ]
 
 { #category : #'private - ffi' }
@@ -93,6 +123,23 @@ GtOpenCvImgproc >> primContourArea: aContour slice: aSlice oriented: isOriented 
 		GtOpenCVContour* aContour,
 		GtOpenCVSlice aSlice,
 		int isOriented))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCvImgproc >> primConvexHull: aContour storage: aStorage orientation: orientation returnPoints: shouldReturnPoints [
+	^ self ffiCall: #(GtOpenCVSeq* cvConvexHull2 (
+		GtOpenCVContour* aContour,
+		void* aStorage,
+		int orientation,
+		int shouldReturnPoints))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCvImgproc >> primConvexityDefects: aContour hull: aConvexHull storage: aStorage [
+	^ self ffiCall: #(GtOpenCVSeq* cvConvexityDefects (
+		GtOpenCVContour* aContour,
+		GtOpenCVSeq* aConvexHull,
+		void* aStorage))
 ]
 
 { #category : #'private - ffi' }

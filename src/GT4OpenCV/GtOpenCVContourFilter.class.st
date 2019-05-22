@@ -6,31 +6,43 @@ Class {
 
 { #category : #glamour }
 GtOpenCVContourFilter >> glamourValueWithArgs: theArgs [
-	| anImage anElement contours maxContour aCopy |
+	| anImage anElement theContours maxContour aContainer aConvexHull |
 	
 	anImage := theArgs first.
 	anElement := theArgs second.
+	anElement removeChildNamed: #contour.
 	
-	aCopy := anImage clone.
-	contours := GtOpenCvImgproc uniqueInstance findContours: aCopy.
-	maxContour := contours detectMax: [ :each | each contour area ].
+	aContainer := BlElement new.
+	aContainer constraintsDo: [ :c |
+		c horizontal matchParent.
+		c vertical matchParent ].
+
+	theContours := anImage contours.
+	maxContour := theContours detectMax: [ :each | each contour area ].
 	maxContour
 		ifNil: [ ^ anImage ].
 
-	anElement removeChildren.
-	contours allContoursDo: [ :each |
-		each ~~ maxContour ifTrue: [
-			anElement addChild: (BlElement new
-				relocate: each rectangle origin;
-				size: each rectangle extent;
-				border: (BlBorder paint: Color blue width: 1)) ] ].
-		
-	anElement addChild: (BlTextElement new
+	aConvexHull := maxContour contour convexHull.
+	self paintConvexHull: aConvexHull in: aContainer.
+
+	"aContainer addChild: (BlTextElement new
 		padding: (BlInsets all: 5);
 		text: (maxContour contour area asString asRopedText foreground: Color red);
 		relocate: maxContour rectangle origin;
 		size: maxContour rectangle extent;
-		border: (BlBorder paint: Color red width: 1)).
+		border: (BlBorder paint: Color red width: 1))."
+		
+	anElement addChild: aContainer as: #contour.
 
 	^ anImage
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCVContourFilter >> paintConvexHull: aConvexHull in: anElement [
+	anElement addChild: (BlElement new
+		geometry: (BlPolygon vertices: aConvexHull asPoints);
+		background: (Color green alpha: 0.2);
+		constraintsDo: [ :c |
+			c horizontal matchParent.
+			c vertical matchParent ])
 ]

@@ -377,6 +377,14 @@ GtOpenCVImage >> colorModel_4: anObject [
 	handle unsignedCharAt: OFFSET_COLORMODEL_4 put: anObject
 ]
 
+{ #category : #'api - opencv' }
+GtOpenCVImage >> contours [
+	<return: #GtOpenCVContourTree>
+
+	^ GtOpenCvImgproc uniqueInstance
+		findContours: self clone
+]
+
 { #category : #private }
 GtOpenCVImage >> convertTo: aModel in: aDestinationImageBlock [
 	| cv dest src |
@@ -404,6 +412,9 @@ GtOpenCVImage >> convertionTable [
 	^ {
 		(#BGR -> #RGBA) -> CV_BGR2RGBA.
 		(#BGR -> #BGRA) -> CV_BGR2BGRA.
+		(#BGR -> #RGB) -> CV_BGR2RGB.
+		(#RGB -> #RGBA) -> CV_RGB2RGBA.
+		(#RGB -> #BGRA) -> CV_RGB2BGRA.
 		(#BGR -> #GRAY) -> CV_BGR2GRAY.
 		(#GRAY -> #RGBA) -> CV_GRAY2RGBA.
 		(#BGRA -> #GRAY) -> CV_BGRA2GRAY.
@@ -426,6 +437,32 @@ GtOpenCVImage >> convertionTo: aMode ifAbsent: aBlock [
 	^ self convertionTable
 		at: (self colorModel -> aMode)
 		ifAbsent: aBlock
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> crop: aRectangle [
+	| aCropedImage cv aRoundedRectangle |
+	
+	aRoundedRectangle := aRectangle ceiling.
+	
+	cv := GtOpenCvImgproc uniqueInstance.
+	
+	aCropedImage := cv
+		createImage: (GtOpenCVSize fromPoint: aRoundedRectangle extent)
+		depth: self depth
+		channels: self nChannels.
+	
+	cv
+		setImage: self
+		regionOfInterest: aRoundedRectangle.
+		
+	cv
+		copy: self to: aCropedImage.
+	
+	cv
+		resetImageRegionOfInterest: self.
+		
+	^ aCropedImage
 ]
 
 { #category : #'accessing structure variables' }
@@ -462,7 +499,7 @@ GtOpenCVImage >> ffiLibraryName [
 	^ self class ffiLibraryName
 ]
 
-{ #category : #'api - converting' }
+{ #category : #'api - opencv' }
 GtOpenCVImage >> gaussianBlur: aKernelSize [
 	"aSize x is the aperture width. Must be a positive odd number (1, 3, 5, ...).
 	aSize y is the aperture height. Must be a positive odd number (1, 3, 5, ...).
@@ -471,7 +508,7 @@ GtOpenCVImage >> gaussianBlur: aKernelSize [
 	^ self gaussianBlur: aKernelSize sigma: 0
 ]
 
-{ #category : #'api - converting' }
+{ #category : #'api - opencv' }
 GtOpenCVImage >> gaussianBlur: aKernelSize sigma: aSigma [
 	"aSize x is the aperture width. Must be a positive odd number (1, 3, 5, ...).
 	aSize y is the aperture height. Must be a positive odd number (1, 3, 5, ...).
@@ -529,7 +566,9 @@ GtOpenCVImage >> gtPreviewFor: aView [
 	^ aView explicit
 		title: 'Live' translated;
 		priority: 10;
-		stencil: [ self asElement asScalableElement ]
+		stencil: [ self asElement
+			when: BlClickEvent do: [ :anEvent |	anEvent consumed: true. anEvent currentTarget phlow spawnObject: self ];
+			asScalableElement ]
 ]
 
 { #category : #'accessing structure variables' }
@@ -705,7 +744,7 @@ GtOpenCVImage >> size [
 	^ GtOpenCVSize new width: self width; height: self height
 ]
 
-{ #category : #'api - converting' }
+{ #category : #'api - opencv' }
 GtOpenCVImage >> splitChannels: anArrayOfChannels [
 	"image split: #(0 1 2)"
 	| channelsDictionary channels |
@@ -740,7 +779,7 @@ GtOpenCVImage >> splitChannels: anArrayOfChannels [
 	^ channels
 ]
 
-{ #category : #'api - converting' }
+{ #category : #'api - opencv' }
 GtOpenCVImage >> threshold: aThreshold [
 	^ self
 		threshold: aThreshold
@@ -748,7 +787,7 @@ GtOpenCVImage >> threshold: aThreshold [
 		using: CV_THRESH_BINARY_INV" | CV_THRESH_OTSU"
 ]
 
-{ #category : #'api - converting' }
+{ #category : #'api - opencv' }
 GtOpenCVImage >> threshold: aThreshold max: aMaxValue using: thresholdType [
 	| aResult |
 	
@@ -794,6 +833,21 @@ GtOpenCVImage >> toBGRA [
 ]
 
 { #category : #'api - converting' }
+GtOpenCVImage >> toFloat [
+	| cv dest |
+
+	cv := GtOpenCvImgproc uniqueInstance.
+	dest := GtOpenCvImgproc uniqueInstance
+		createImage: self size
+		depth: 32
+		channels: self nChannels.
+	
+	cv primConvert: self to: dest scale: 1 / 255.0 shift: 0.
+	
+	^ dest
+]
+
+{ #category : #'api - converting' }
 GtOpenCVImage >> toGray [
 	<return: #GtOpenCVImage>
 	
@@ -809,6 +863,17 @@ GtOpenCVImage >> toHSV [
 	<return: #GtOpenCVImage>
 
 	^ self convertTo: #HSV in: [
+		GtOpenCvImgproc uniqueInstance
+			createImage: self size
+			depth: 8
+			channels: 3 ]
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> toRGB [
+	<return: #GtOpenCVImage>
+
+	^ self convertTo: #RGB in: [
 		GtOpenCvImgproc uniqueInstance
 			createImage: self size
 			depth: 8

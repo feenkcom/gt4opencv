@@ -26,6 +26,11 @@ GtOpenCVPoint class >> fromPoint: aPoint [
 		y: aPoint y asInteger
 ]
 
+{ #category : #converting }
+GtOpenCVPoint >> asPoint [
+	^ self x @ self y
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVPoint >> x [
 	"This method was automatically generated"

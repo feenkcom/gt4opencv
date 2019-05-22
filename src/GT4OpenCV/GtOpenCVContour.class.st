@@ -87,6 +87,17 @@ GtOpenCVContour >> area [
 		oriented: false
 ]
 
+{ #category : #converting }
+GtOpenCVContour >> asElement [
+	| aConvexHull thePoints aContourElement |
+	
+	aConvexHull := self convexHull.
+	thePoints := aConvexHull asPoints.
+	
+	aContourElement := BlElement new.
+	aContourElement 
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVContour >> block_max [
 	"This method was automatically generated"
@@ -99,6 +110,15 @@ GtOpenCVContour >> block_max: anObject [
 	handle pointerAt: OFFSET_BLOCK_MAX put: anObject getHandle.
 ]
 
+{ #category : #'opencv - api' }
+GtOpenCVContour >> boundingRect [
+	<return: #Rectangle>
+
+	^ GtOpenCvImgproc uniqueInstance
+		boundingRect: self
+		update: true
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVContour >> color [
 	"This method was automatically generated"
@@ -109,6 +129,29 @@ GtOpenCVContour >> color [
 GtOpenCVContour >> color: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_COLOR put: anObject
+]
+
+{ #category : #'opencv - api' }
+GtOpenCVContour >> convexHull [
+	^ GtOpenCvImgproc uniqueInstance
+		convexHull: self
+		orientation: CV_CLOCKWISE
+		returnPoints: true
+]
+
+{ #category : #'opencv - api' }
+GtOpenCVContour >> convexHullWithoutPoints [
+	^ GtOpenCvImgproc uniqueInstance
+		convexHull: self
+		orientation: CV_CLOCKWISE
+		returnPoints: false
+]
+
+{ #category : #'opencv - api' }
+GtOpenCVContour >> convexityDefects: aConvexHull [
+	^ GtOpenCvImgproc uniqueInstance
+		convexityDefects: self
+		hull: aConvexHull
 ]
 
 { #category : #'accessing structure variables' }

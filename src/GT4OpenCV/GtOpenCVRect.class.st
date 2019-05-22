@@ -23,6 +23,15 @@ GtOpenCVRect class >> fieldsDesc [
 	)
 ]
 
+{ #category : #'instance creation' }
+GtOpenCVRect class >> fromRectangle: aRectangle [
+	^ self new
+		x: aRectangle left;
+		y: aRectangle top;
+		width: aRectangle width;
+		height: aRectangle height
+]
+
 { #category : #converting }
 GtOpenCVRect >> asRectangle [
 	^ Rectangle origin: self x @ self y extent: (self width @ self height)

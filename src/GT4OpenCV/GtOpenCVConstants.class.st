@@ -85,7 +85,9 @@ Class {
 		'CV_CHAIN_APPROX_TC89_KCOS',
 		'CV_CHAIN_APPROX_TC89_L1',
 		'CV_CHAIN_CODE',
+		'CV_CLOCKWISE',
 		'CV_COLORCVT_MAX',
+		'CV_COUNTER_CLOCKWISE',
 		'CV_GAUSSIAN',
 		'CV_GRAY2BGR',
 		'CV_GRAY2BGR555',
@@ -256,7 +258,8 @@ GtOpenCVConstants class >> initialize [
 	self initializeChainMethods.
 	self initializeRetrModes.
 	self initializeSeqConstants.
-	self initializeSmoothMethods
+	self initializeSmoothMethods.
+	self initializeOrientation
 ]
 
 { #category : #'class initialization' }
@@ -508,6 +511,12 @@ GtOpenCVConstants class >> initializeInterpolators [
 	CV_INTER_CUBIC := 2.
 	CV_INTER_AREA := 3.
 	CV_INTER_LANCZOS4 := 4
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeOrientation [
+	CV_CLOCKWISE := 1.
+	CV_COUNTER_CLOCKWISE := 2
 ]
 
 { #category : #'class initialization' }

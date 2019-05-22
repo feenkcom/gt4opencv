@@ -68,6 +68,25 @@ GtOpenCVSeq class >> fieldsDesc [
 	)
 ]
 
+{ #category : #'api - opencv' }
+GtOpenCVSeq >> asConvexityDefects [
+	<return: #Collection of: #Point>
+
+	^ (1 to: self total) collect: [ :anIndex | GtOpenCVConvexityDefect fromHandle: (self at: anIndex) getHandle ]
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVSeq >> asPoints [
+	<return: #Collection of: #Point>
+	
+	^ (1 to: self total) collect: [ :anIndex | (GtOpenCVPoint fromHandle: (self at: anIndex) getHandle) asPoint ]
+]
+
+{ #category : #accessing }
+GtOpenCVSeq >> at: anIndex [
+	^ GtOpenCVLibrary uniqueInstance getSeqElem: self at: anIndex
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVSeq >> block_max [
 	"This method was automatically generated"

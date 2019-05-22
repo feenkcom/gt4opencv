@@ -32,6 +32,11 @@ GtOpenCVLibrary >> convert: aSourceImage to: aDestinationImage [
 	self primConvert: aSourceImage to: aDestinationImage scale: 1 shift: 0
 ]
 
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> copy: anImage to: anotherImage [
+	self primCopy: anImage dest: anotherImage mask: nil
+]
+
 { #category : #'opencv - instance creation' }
 GtOpenCVLibrary >> createHistogram: theDimensions sizes: theSizes ranges: theRanges [
 	^ self
@@ -101,6 +106,11 @@ GtOpenCVLibrary >> detectLibrary: aFileName [
 			ifNone: [ aFileName ]
 ]
 
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> getSeqElem: aSeq at: anIndex [
+	^ self ffiCall: #(schar* cvGetSeqElem(GtOpenCVSeq* aSeq, int anIndex))
+]
+
 { #category : #'opencv - accessing' }
 GtOpenCVLibrary >> getSize: anImage [
 	^ self primGetSize: anImage getHandle
@@ -124,6 +134,11 @@ GtOpenCVLibrary >> primCloneImage: aSourceImage [
 { #category : #'private - ffi' }
 GtOpenCVLibrary >> primConvert: aSource to: aDestination scale: aScale shift: aShift [
 	^ self ffiCall: #(void cvConvertScale (GtOpenCVImage *aSource, GtOpenCVImage *aDestination, double aScale, double aShift))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primCopy: aSourceImage dest: aDestImage mask: aMask [
+	^ self ffiCall: #(void cvCopy(GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestImage, void* aMask))
 ]
 
 { #category : #'private - ffi' }
@@ -161,8 +176,23 @@ GtOpenCVLibrary >> primReleaseMemStorage: aMemStorage [
 ]
 
 { #category : #'private - ffi' }
+GtOpenCVLibrary >> primSetImage: anImage roi: aRect [
+	^ self ffiCall: #(void cvSetImageROI(GtOpenCVImage* anImage, GtOpenCVRect aRect))
+]
+
+{ #category : #'private - ffi' }
 GtOpenCVLibrary >> primSplit: aSource dest0: dest0 dest1: dest1 dest2: dest2 dest3: dest3 [
 	^ self ffiCall: #(void cvSplit (GtOpenCVImage *aSource, GtOpenCVImage *dest0, GtOpenCVImage *dest1, GtOpenCVImage *dest2, GtOpenCVImage *dest3))
+]
+
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> resetImageRegionOfInterest: anImage [
+	self ffiCall: #(void cvResetImageROI(GtOpenCVImage* anImage))
+]
+
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> setImage: anImage regionOfInterest: aRectangle [
+	self primSetImage: anImage roi: (GtOpenCVRect fromRectangle: aRectangle ceiling)
 ]
 
 { #category : #'opencv - core' }
