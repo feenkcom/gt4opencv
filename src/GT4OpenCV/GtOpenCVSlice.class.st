@@ -8,7 +8,7 @@ Class {
 	#pools : [
 		'GtOpenCVConstants'
 	],
-	#category : #'GT4OpenCV-Library'
+	#category : #'GT4OpenCV-Structures'
 }
 
 { #category : #'field definition' }

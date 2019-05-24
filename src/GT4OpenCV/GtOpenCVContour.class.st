@@ -89,13 +89,7 @@ GtOpenCVContour >> area [
 
 { #category : #converting }
 GtOpenCVContour >> asElement [
-	| aConvexHull thePoints aContourElement |
-	
-	aConvexHull := self convexHull.
-	thePoints := aConvexHull asPoints.
-	
-	aContourElement := BlElement new.
-	aContourElement 
+	^ BlElement new
 ]
 
 { #category : #'accessing structure variables' }
@@ -129,29 +123,6 @@ GtOpenCVContour >> color [
 GtOpenCVContour >> color: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_COLOR put: anObject
-]
-
-{ #category : #'opencv - api' }
-GtOpenCVContour >> convexHull [
-	^ GtOpenCvImgproc uniqueInstance
-		convexHull: self
-		orientation: CV_CLOCKWISE
-		returnPoints: true
-]
-
-{ #category : #'opencv - api' }
-GtOpenCVContour >> convexHullWithoutPoints [
-	^ GtOpenCvImgproc uniqueInstance
-		convexHull: self
-		orientation: CV_CLOCKWISE
-		returnPoints: false
-]
-
-{ #category : #'opencv - api' }
-GtOpenCVContour >> convexityDefects: aConvexHull [
-	^ GtOpenCvImgproc uniqueInstance
-		convexityDefects: self
-		hull: aConvexHull
 ]
 
 { #category : #'accessing structure variables' }
@@ -212,6 +183,15 @@ GtOpenCVContour >> free_blocks [
 GtOpenCVContour >> free_blocks: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_FREE_BLOCKS put: anObject getHandle.
+]
+
+{ #category : #'gt-inspector-extension' }
+GtOpenCVContour >> gtPreviewFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live' translated;
+		priority: 10;
+		stencil: [ (self asElement asScalableElement) margin: (BlInsets all: 20) ]
 ]
 
 { #category : #'accessing structure variables' }

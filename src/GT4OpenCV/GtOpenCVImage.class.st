@@ -97,6 +97,13 @@ GtOpenCVImage class >> fieldsDesc [
 	char* 	imageDataOrigin)
 ]
 
+{ #category : #'instance creation' }
+GtOpenCVImage class >> fromFileNamed: aFileName [
+	^ GtOpenCVLibrary uniqueInstance
+		loadImage: aFileName
+		format: CV_LOAD_IMAGE_COLOR "in BGR"
+]
+
 { #category : #'private - ffi' }
 GtOpenCVImage class >> primRelease: aHandle [
 	
@@ -212,6 +219,32 @@ GtOpenCVImage >> ID: anObject [
 	handle signedLongAt: OFFSET_ID put: anObject
 ]
 
+{ #category : #'api - opencv' }
+GtOpenCVImage >> adaptiveThreshold [
+	^ self
+		adaptiveThreshold: CV_ADAPTIVE_THRESH_MEAN_C
+		max: 255
+		using: CV_THRESH_BINARY
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> adaptiveThreshold: aMethod max: aMaxValue using: thresholdType [
+	| aResult |
+	
+	aResult := self similar.
+	
+	GtOpenCvImgproc uniqueInstance
+		adaptiveThresholdSrc: self
+		dest: aResult
+		max: aMaxValue
+		adaptiveMethod: aMethod
+		type: thresholdType
+		blockSize: 35
+		param: 2.
+
+	^ aResult
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVImage >> align [
 	"This method was automatically generated"
@@ -259,6 +292,25 @@ GtOpenCVImage >> asForm [
 		draw.
 		
 	^ aCanvas asForm
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> borderWidth: aWidth color: aColor [
+	| aResult |
+	
+	aResult := GtOpenCvImgproc uniqueInstance
+		createImage: (GtOpenCVSize fromPoint: self extent + (aWidth * 2))
+		depth: self depth
+		channels: self nChannels.
+
+	GtOpenCvImgproc uniqueInstance
+		copyMakeBorder: self
+		dest: aResult
+		offset: (GtOpenCVPoint fromPoint: aWidth asPoint)
+		type: BORDER_CONSTANT
+		value: (GtOpenCVScalar fromArray: ({ aColor blue . aColor green . aColor red } collect: [ :each | (each * 255) floor ])).
+
+	^ aResult
 ]
 
 { #category : #'accessing structure variables' }
@@ -381,8 +433,8 @@ GtOpenCVImage >> colorModel_4: anObject [
 GtOpenCVImage >> contours [
 	<return: #GtOpenCVContourTree>
 
-	^ GtOpenCvImgproc uniqueInstance
-		findContours: self clone
+	^ (GtOpenCvImgproc uniqueInstance
+		findContours: self clone) image: self
 ]
 
 { #category : #private }
@@ -489,9 +541,44 @@ GtOpenCVImage >> depth: anObject [
 	handle signedLongAt: OFFSET_DEPTH put: anObject
 ]
 
+{ #category : #'api - converting' }
+GtOpenCVImage >> equalizeHistogram [
+	| aGrayImage aResult |
+
+	aGrayImage := self toGray.
+	aResult := aGrayImage similar.
+	
+	GtOpenCvImgproc uniqueInstance equalizeHist: aGrayImage dest: aResult.
+	
+	^ aResult
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> expandBy: aNumber [
+	^ self borderWidth: 10 color: Color transparent
+]
+
 { #category : #'api - accessing' }
 GtOpenCVImage >> extent [
 	^ self width @ self height
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> extractMean [
+	| sampleBox sample mean offsetLowThreshold offsetHighThreshold lowerSkin upperSkin |
+
+	sampleBox := (self extent / (4.0 @ 4.0)) extent: (self extent / (2.0 @ (2) )).
+	sample := self crop: sampleBox.
+
+	mean := sample mean first: 3.
+
+	offsetLowThreshold := 30.
+	offsetHighThreshold := 30.
+
+	lowerSkin := mean - offsetLowThreshold.
+	upperSkin := mean + offsetHighThreshold.
+
+	^ self inRangeLower: lowerSkin upper: upperSkin.
 ]
 
 { #category : #resources }
@@ -514,18 +601,20 @@ GtOpenCVImage >> gaussianBlur: aKernelSize sigma: aSigma [
 	aSize y is the aperture height. Must be a positive odd number (1, 3, 5, ...).
 	aSigma may specify Gaussian σ (standard deviation). If it is zero, it is calculated from the kernel size.
 	Using standard sigma for small kernels ( 3×3 to 7×7 ) gives better speed."
-	| aResult |
+	| aResult aKernelSizePoint |
 	
+	aKernelSizePoint := aKernelSize asPoint.
+
 	self
-		assert: [ aKernelSize >= 0 asPoint ]
+		assert: [ aKernelSizePoint >= 0 asPoint ]
 		description: [ 'Aperture must be a positive number' ].
 	
 	self
-		assert: [ aKernelSize x odd ]
+		assert: [ aKernelSizePoint x odd ]
 		description: [ 'Aperture width must be a positive odd number' ].
 		
 	self
-		assert: [ aKernelSize y odd ]
+		assert: [ aKernelSizePoint y odd ]
 		description: [ 'Aperture width must be a positive odd number' ].
 	
 	aResult := self similar.
@@ -534,8 +623,8 @@ GtOpenCVImage >> gaussianBlur: aKernelSize sigma: aSigma [
 		smooth: self
 		dest: aResult
 		type: CV_GAUSSIAN
-		size1: aKernelSize x
-		size2: aKernelSize y
+		size1: aKernelSizePoint x
+		size2: aKernelSizePoint y
 		sigma1: aSigma
 		sigma2: 0.
 
@@ -631,6 +720,35 @@ GtOpenCVImage >> imageSize: anObject [
 	handle signedLongAt: OFFSET_IMAGESIZE put: anObject
 ]
 
+{ #category : #'api - opencv' }
+GtOpenCVImage >> inRangeLower: aLowerArray upper: anUpperArray [
+	| aResult |
+	
+	aResult := GtOpenCvImgproc uniqueInstance
+		createImage: self size
+		depth: 8
+		channels: 1.
+
+	GtOpenCvImgproc uniqueInstance
+		inRangeSrc: self
+		dest: aResult
+		lowerScalar: (GtOpenCVScalar fromArray: aLowerArray)
+		upperScalar: (GtOpenCVScalar fromArray: anUpperArray).
+		
+	^ aResult
+]
+
+{ #category : #'api - converting' }
+GtOpenCVImage >> inverted [
+	| aResult |
+	
+	aResult := self similar.
+
+	GtOpenCVLibrary uniqueInstance not: self dest: aResult.
+	
+	^ aResult
+]
+
 { #category : #'accessing structure variables' }
 GtOpenCVImage >> maskROI [
 	"This method was automatically generated"
@@ -641,6 +759,15 @@ GtOpenCVImage >> maskROI [
 GtOpenCVImage >> maskROI: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_MASKROI put: anObject getHandle.
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> mean [
+	<return: #Array of: #Number>
+
+	^ (GtOpenCVLibrary uniqueInstance
+		average: self
+		mask: nil) asArray
 ]
 
 { #category : #'accessing structure variables' }
@@ -677,6 +804,14 @@ GtOpenCVImage >> origin [
 GtOpenCVImage >> origin: anObject [
 	"This method was automatically generated"
 	handle signedLongAt: OFFSET_ORIGIN put: anObject
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> otsuThreshold [
+	^ self
+		threshold: 0
+		max: 255
+		using: CV_THRESH_BINARY_INV | CV_THRESH_OTSU
 ]
 
 { #category : #'api - converting' }
@@ -784,7 +919,7 @@ GtOpenCVImage >> threshold: aThreshold [
 	^ self
 		threshold: aThreshold
 		max: 255
-		using: CV_THRESH_BINARY_INV" | CV_THRESH_OTSU"
+		using: CV_THRESH_BINARY_INV
 ]
 
 { #category : #'api - opencv' }

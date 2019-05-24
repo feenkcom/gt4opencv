@@ -2,6 +2,15 @@ Class {
 	#name : #GtOpenCVConstants,
 	#superclass : #SharedPool,
 	#classVars : [
+		'BORDER_CONSTANT',
+		'BORDER_DEFAULT',
+		'BORDER_ISOLATED',
+		'BORDER_REFLECT',
+		'BORDER_REFLECT101',
+		'BORDER_REFLECT_101',
+		'BORDER_REPLICATE',
+		'BORDER_TRANSPARENT',
+		'BORDER_WRAP',
 		'CV_ADAPTIVE_THRESH_GAUSSIAN_C',
 		'CV_ADAPTIVE_THRESH_MEAN_C',
 		'CV_BGR2BGR555',
@@ -80,6 +89,8 @@ Class {
 		'CV_BayerRG2RGBA',
 		'CV_BayerRG2RGB_EA',
 		'CV_BayerRG2RGB_VNG',
+		'CV_CAP_PROP_AUTO_EXPOSURE',
+		'CV_CAP_PROP_SHARPNESS',
 		'CV_CHAIN_APPROX_NONE',
 		'CV_CHAIN_APPROX_SIMPLE',
 		'CV_CHAIN_APPROX_TC89_KCOS',
@@ -113,6 +124,12 @@ Class {
 		'CV_LBGR2Lab',
 		'CV_LBGR2Luv',
 		'CV_LINK_RUNS',
+		'CV_LOAD_IMAGE_ANYCOLOR',
+		'CV_LOAD_IMAGE_ANYDEPTH',
+		'CV_LOAD_IMAGE_COLOR',
+		'CV_LOAD_IMAGE_GRAYSCALE',
+		'CV_LOAD_IMAGE_IGNORE_ORIENTATION',
+		'CV_LOAD_IMAGE_UNCHANGED',
 		'CV_LRGB2Lab',
 		'CV_LRGB2Luv',
 		'CV_Lab2BGR',
@@ -259,13 +276,35 @@ GtOpenCVConstants class >> initialize [
 	self initializeRetrModes.
 	self initializeSeqConstants.
 	self initializeSmoothMethods.
-	self initializeOrientation
+	self initializeOrientation.
+	self initializeCameraCaptureProperties.
+	self initializeLoadImageFormats.
+	self initializeBorderTypes
 ]
 
 { #category : #'class initialization' }
 GtOpenCVConstants class >> initializeAdaptiveThresholdTypes [
 	CV_ADAPTIVE_THRESH_MEAN_C := 0.
 	CV_ADAPTIVE_THRESH_GAUSSIAN_C := 1
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeBorderTypes [
+	BORDER_CONSTANT := 0.
+	BORDER_REPLICATE := 1.
+	BORDER_REFLECT := 2.
+	BORDER_WRAP := 3.
+	BORDER_REFLECT_101 := 4.
+	BORDER_TRANSPARENT := 5.
+	BORDER_REFLECT101 := BORDER_REFLECT_101.
+	BORDER_DEFAULT := BORDER_REFLECT_101.
+	BORDER_ISOLATED := 16
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeCameraCaptureProperties [
+	CV_CAP_PROP_SHARPNESS := 20.
+	CV_CAP_PROP_AUTO_EXPOSURE := 21
 ]
 
 { #category : #'class initialization' }
@@ -511,6 +550,16 @@ GtOpenCVConstants class >> initializeInterpolators [
 	CV_INTER_CUBIC := 2.
 	CV_INTER_AREA := 3.
 	CV_INTER_LANCZOS4 := 4
+]
+
+{ #category : #'class initialization' }
+GtOpenCVConstants class >> initializeLoadImageFormats [
+	CV_LOAD_IMAGE_UNCHANGED := -1.
+	CV_LOAD_IMAGE_GRAYSCALE := 0.
+	CV_LOAD_IMAGE_COLOR := 1.
+	CV_LOAD_IMAGE_ANYDEPTH := 2.
+	CV_LOAD_IMAGE_ANYCOLOR := 4.
+	CV_LOAD_IMAGE_IGNORE_ORIENTATION := 128
 ]
 
 { #category : #'class initialization' }

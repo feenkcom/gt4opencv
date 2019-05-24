@@ -22,6 +22,11 @@ GtOpenCVLibrary class >> install [
 	installer run
 ]
 
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> average: anImage mask: aMask [
+	^ self ffiCall: #(GtOpenCVScalar cvAvg(GtOpenCVImage* anImage, GtOpenCVImage* aMask))
+]
+
 { #category : #'opencv - instance creation' }
 GtOpenCVLibrary >> cloneImage: aSourceImage [
 	^ (self primCloneImage: aSourceImage) autoRelease
@@ -116,6 +121,11 @@ GtOpenCVLibrary >> getSize: anImage [
 	^ self primGetSize: anImage getHandle
 ]
 
+{ #category : #'opencv - instance creation' }
+GtOpenCVLibrary >> loadImage: aFileName format: aLoadImageFormat [
+	^ (self primLoadImage: aFileName format: aLoadImageFormat) autoRelease
+]
+
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> macModuleName [
 	^ self detectLibrary: self moduleName, '.dylib'
@@ -124,6 +134,11 @@ GtOpenCVLibrary >> macModuleName [
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> moduleName [
 	^ 'libopencv_world'
+]
+
+{ #category : #'opencv - core' }
+GtOpenCVLibrary >> not: aSourceImage dest: aDestImage [
+	^ self ffiCall: #(void cvNot(GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestImage))
 ]
 
 { #category : #'private - ffi' }
@@ -168,6 +183,11 @@ GtOpenCVLibrary >> primCreateSeq: theSeqFlags headerSize: aHeaderSize elemSize: 
 { #category : #'private - ffi' }
 GtOpenCVLibrary >> primGetSize: anImage [
 	^ self ffiCall: #(GtOpenCVSize cvGetSize(void* anImage))
+]
+
+{ #category : #'private - ffi' }
+GtOpenCVLibrary >> primLoadImage: aFileName format: aLoadImageFormat [
+	^ self ffiCall: #(GtOpenCVImage* cvLoadImage(String aFileName, int aLoadImageFormat))
 ]
 
 { #category : #'private - ffi' }

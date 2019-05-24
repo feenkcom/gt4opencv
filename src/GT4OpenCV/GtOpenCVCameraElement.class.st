@@ -52,6 +52,8 @@ GtOpenCVCameraElement >> initialize [
 	super initialize.
 
 	camera ifNil: [ camera := GtOpenCvVideoIO uniqueInstance createCameraCapture: 0 ].
+	camera disableAutoExposure.
+
 	filters := OrderedCollection new.
 	
 	updater := self newTask
@@ -60,7 +62,7 @@ GtOpenCVCameraElement >> initialize [
 { #category : #initialization }
 GtOpenCVCameraElement >> newTask [
 	^ BlRepeatedTaskAction new
-		delay: 64 milliSeconds;
+		delay: 16 milliSeconds;
 		action: [
 			image := camera captureFrame.
 			image isNull

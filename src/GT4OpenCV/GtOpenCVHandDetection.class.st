@@ -28,12 +28,21 @@ grayed := hand toGray.
 
 smooth out various defects
 [[[show=gtPreviewFor:|height=200
-blured := grayed gaussianBlur: 35@35.
+blured := grayed gaussianBlur: 25@25.
 ]]]
 
 and convert it to black and white only
 [[[show=gtPreviewFor:|height=200
-blackWhite := blured threshold: 127.
+blackWhiteAdaptive := blured adaptiveThreshold.
+]]]
+
+and convert it to black and white only
+[[[show=gtPreviewFor:|height=200
+blackWhite := blured otsuThreshold.
+]]]
+
+[[[show=gtPreviewFor:|height=200
+contours := blackWhite contours.
 ]]]
 "
 Class {
@@ -41,3 +50,23 @@ Class {
 	#superclass : #Object,
 	#category : #'GT4OpenCV-Hand Detection'
 }
+
+{ #category : #examples }
+GtOpenCVHandDetection >> example01 [
+	<gtExample>
+	| image hands hand hsv mask contours contour |
+	image := GtOpenCVImage fromFileNamed: 'hand.jpg'.
+
+	hands := GtTensorFlowHandDetector detect: image.
+	hand := image crop: (hands anyOne wideArea).
+
+	hsv := hand toHSV.
+	hsv := hsv gaussianBlur: 25@25.
+	mask := hsv extractMean.
+	mask := mask expandBy: 10.
+
+	mask := mask inverted.
+
+	contours := mask contours.
+	contour := contours max.
+]

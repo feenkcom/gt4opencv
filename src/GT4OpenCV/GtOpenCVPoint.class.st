@@ -5,7 +5,7 @@ Class {
 		'OFFSET_X',
 		'OFFSET_Y'
 	],
-	#category : #'GT4OpenCV-Library'
+	#category : #'GT4OpenCV-Structures'
 }
 
 { #category : #'field definition' }

@@ -7,6 +7,16 @@ Class {
 	#category : #'GT4OpenCV-Examples'
 }
 
+{ #category : #accessing }
+GtOpenCVTensorFlowFilter >> detector [
+	^ detector
+]
+
+{ #category : #accessing }
+GtOpenCVTensorFlowFilter >> detector: anObject [
+	detector := anObject
+]
+
 { #category : #glamour }
 GtOpenCVTensorFlowFilter >> glamourValueWithArgs: theArgs [
 	| anImage anElement aContainer theHands |

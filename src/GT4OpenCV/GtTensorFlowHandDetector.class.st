@@ -83,6 +83,20 @@ GtTensorFlowHandDetector >> detect: anImage [
 	^ objects
 ]
 
+{ #category : #'gt-inspector-extension' }
+GtTensorFlowHandDetector >> gtPreviewFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live' translated;
+		priority: 10;
+		stencil: [
+			| anElement |
+			anElement := GtOpenCVCameraElement new.
+			anElement filter: [ :anImage | anImage scaleBy: 0.5 ].
+			anElement filter: (GtOpenCVTensorFlowFilter new detector: self); filter: #toBGR.
+			anElement asScalableElement ]
+]
+
 { #category : #initialization }
 GtTensorFlowHandDetector >> initialize [
 	super initialize.

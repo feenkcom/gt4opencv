@@ -1,5 +1,5 @@
 Class {
-	#name : #GtOpenCVConvexityDefect,
+	#name : #GtOpenCVConvexityDefectStruct,
 	#superclass : #FFIExternalStructure,
 	#classVars : [
 		'OFFSET_DEPTH',
@@ -7,11 +7,11 @@ Class {
 		'OFFSET_END',
 		'OFFSET_START'
 	],
-	#category : #'GT4OpenCV-Library'
+	#category : #'GT4OpenCV-Structures'
 }
 
 { #category : #'field definition' }
-GtOpenCVConvexityDefect class >> fieldsDesc [
+GtOpenCVConvexityDefectStruct class >> fieldsDesc [
 	"
 	self rebuildFieldAccessors
 	"
@@ -27,50 +27,59 @@ GtOpenCVConvexityDefect class >> fieldsDesc [
 	)
 ]
 
+{ #category : #converting }
+GtOpenCVConvexityDefectStruct >> asDefect [
+	^ GtOpenCVDefect new
+		start: self start asPoint;
+		end: self end asPoint;
+		far: self depth_point asPoint;
+		depth: self depth
+]
+
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> depth [
+GtOpenCVConvexityDefectStruct >> depth [
 	"This method was automatically generated"
 	^handle floatAt: OFFSET_DEPTH
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> depth: anObject [
+GtOpenCVConvexityDefectStruct >> depth: anObject [
 	"This method was automatically generated"
 	handle floatAt: OFFSET_DEPTH put: anObject
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> depth_point [
+GtOpenCVConvexityDefectStruct >> depth_point [
 	"This method was automatically generated"
 	^GtOpenCVPoint fromHandle: (handle pointerAt: OFFSET_DEPTH_POINT)
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> depth_point: anObject [
+GtOpenCVConvexityDefectStruct >> depth_point: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_DEPTH_POINT put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> end [
+GtOpenCVConvexityDefectStruct >> end [
 	"This method was automatically generated"
 	^GtOpenCVPoint fromHandle: (handle pointerAt: OFFSET_END)
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> end: anObject [
+GtOpenCVConvexityDefectStruct >> end: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_END put: anObject getHandle.
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> start [
+GtOpenCVConvexityDefectStruct >> start [
 	"This method was automatically generated"
 	^GtOpenCVPoint fromHandle: (handle pointerAt: OFFSET_START)
 ]
 
 { #category : #'accessing structure variables' }
-GtOpenCVConvexityDefect >> start: anObject [
+GtOpenCVConvexityDefectStruct >> start: anObject [
 	"This method was automatically generated"
 	handle pointerAt: OFFSET_START put: anObject getHandle.
 ]

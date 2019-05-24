@@ -5,6 +5,18 @@ Class {
 }
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> adaptiveThresholdSrc: aSourceImage dest: aDestinationImage max: aMaxValue adaptiveMethod: anAdaptiveMethod type: thresholdType blockSize: aBlockSize param: aParam [
+	^ self ffiCall: #(void cvAdaptiveThreshold (
+		GtOpenCVImage* aSourceImage,
+		GtOpenCVImage* aDestinationImage,
+		double aMaxValue,
+		int anAdaptiveMethod,
+		int thresholdType,
+		int aBlockSize,
+		double aParam))
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> boundingRect: aContour update: shouldUpdate [
 	^ (self primBoundingRect: aContour update: shouldUpdate asBit) asRectangle
 ]
@@ -70,8 +82,23 @@ GtOpenCvImgproc >> convexityDefects: aContour hull: aConvexHull [
 ]
 
 { #category : #'opencv - api' }
+GtOpenCvImgproc >> copyMakeBorder: aSourceImage dest: aDestinationImage offset: anOffset type: aBorderType value: aValue [
+	^ self ffiCall: #(void cvCopyMakeBorder(
+		GtOpenCVImage* aSourceImage,
+		GtOpenCVImage* aDestinationImage,
+		GtOpenCVPoint anOffset,
+		int aBorderType,
+		GtOpenCVScalar aValue))
+]
+
+{ #category : #'opencv - api' }
 GtOpenCvImgproc >> cvtColorSrc: aSourceImage dest: aDestinationImage to: aFormat [
 	^ self ffiCall: #(void cvCvtColor (GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestinationImage, int aFormat))
+]
+
+{ #category : #'opencv - api' }
+GtOpenCvImgproc >> equalizeHist: aSourceImage dest: aDestinationImage [
+	^ self ffiCall: #(void cvEqualizeHist (GtOpenCVImage* aSourceImage, GtOpenCVImage* aDestinationImage))
 ]
 
 { #category : #'opencv - api' }
@@ -91,6 +118,15 @@ GtOpenCvImgproc >> findContours: anImage [
 		offset: (GtOpenCVPoint fromPoint: 0@0).
 	
 	^ (GtOpenCVContourTree fromOpenCVContour: (GtOpenCVContour fromHandle: aFirstContour)) storage: aMemoryStorage
+]
+
+{ #category : #'opencv - api' }
+GtOpenCvImgproc >> inRangeSrc: aSourceImage dest: aDestinationImage lowerScalar: aLowerScalar upperScalar: anUpperScalar [
+	^ self ffiCall: #(void cvInRangeS (
+		GtOpenCVImage* aSourceImage,
+		GtOpenCVScalar aLowerScalar,
+		GtOpenCVScalar anUpperScalar,
+		GtOpenCVImage* aDestinationImage))
 ]
 
 { #category : #'private - ffi' }
@@ -127,7 +163,7 @@ GtOpenCvImgproc >> primContourArea: aContour slice: aSlice oriented: isOriented 
 
 { #category : #'private - ffi' }
 GtOpenCvImgproc >> primConvexHull: aContour storage: aStorage orientation: orientation returnPoints: shouldReturnPoints [
-	^ self ffiCall: #(GtOpenCVSeq* cvConvexHull2 (
+	^ self ffiCall: #(GtOpenCVConvexHull* cvConvexHull2 (
 		GtOpenCVContour* aContour,
 		void* aStorage,
 		int orientation,
@@ -136,7 +172,7 @@ GtOpenCvImgproc >> primConvexHull: aContour storage: aStorage orientation: orien
 
 { #category : #'private - ffi' }
 GtOpenCvImgproc >> primConvexityDefects: aContour hull: aConvexHull storage: aStorage [
-	^ self ffiCall: #(GtOpenCVSeq* cvConvexityDefects (
+	^ self ffiCall: #(GtOpenCVContourDefects* cvConvexityDefects (
 		GtOpenCVContour* aContour,
 		GtOpenCVSeq* aConvexHull,
 		void* aStorage))

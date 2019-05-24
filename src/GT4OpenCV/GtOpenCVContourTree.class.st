@@ -3,7 +3,8 @@ Class {
 	#superclass : #Collection,
 	#instVars : [
 		'children',
-		'storage'
+		'storage',
+		'image'
 	],
 	#category : #'GT4OpenCV-!OpenCV'
 }
@@ -71,6 +72,26 @@ GtOpenCVContourTree >> allContoursDo: aBlock [
 	self children do: [ :each | each allContoursDo: aBlock ]
 ]
 
+{ #category : #adding }
+GtOpenCVContourTree >> asElement [
+	| aContainer theContourElements |
+	
+	aContainer := BlElement new.
+	aContainer size: self image extent.
+
+	theContourElements := Array streamContents: [ :aStream |
+		self allContoursDo: [ :eachContourNode |
+			| eachContourElement |
+			
+			eachContourElement := eachContourNode asElement.
+			eachContourElement relocate: eachContourNode origin.
+			
+			aStream nextPut: eachContourElement ] ].
+	
+	aContainer addChildren: theContourElements.
+	^ aContainer
+]
+
 { #category : #accessing }
 GtOpenCVContourTree >> children [
 	^ children
@@ -84,6 +105,15 @@ GtOpenCVContourTree >> do: aBlock [
 ]
 
 { #category : #'gt-inspector-extension' }
+GtOpenCVContourTree >> gtPreviewFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Live' translated;
+		priority: 10;
+		stencil: [ (self asElement background: self image asForm; asScalableElement) margin: (BlInsets all: 20) ]
+]
+
+{ #category : #'gt-inspector-extension' }
 GtOpenCVContourTree >> gtTreeFor: aView [
 	<gtView>
 	
@@ -92,11 +122,28 @@ GtOpenCVContourTree >> gtTreeFor: aView [
 		painting: [ :aMondrian | self paintTreeWith: aMondrian ]
 ]
 
+{ #category : #accessing }
+GtOpenCVContourTree >> image [
+	<return: #GtOpenCVImage>
+
+	^ image
+]
+
+{ #category : #accessing }
+GtOpenCVContourTree >> image: anOpenCVImage [
+	image := anOpenCVImage
+]
+
 { #category : #initialization }
 GtOpenCVContourTree >> initialize [
 	super initialize.
 
 	children := OrderedCollection new
+]
+
+{ #category : #accessing }
+GtOpenCVContourTree >> max [
+	^ self detectMax: #area
 ]
 
 { #category : #'gt-inspector-extension' }
@@ -131,6 +178,11 @@ GtOpenCVContourTree >> remove: oldObject ifAbsent: anExceptionBlock [
 	respond to this message."
 
 	self shouldNotImplement
+]
+
+{ #category : #accessing }
+GtOpenCVContourTree >> root [
+	^ self
 ]
 
 { #category : #accessing }

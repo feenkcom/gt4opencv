@@ -3,6 +3,9 @@ Class {
 	#superclass : #FFIExternalObject,
 	#traits : 'TGtOpenCVPtr',
 	#classTraits : 'TGtOpenCVPtr classTrait',
+	#pools : [
+		'GtOpenCVConstants'
+	],
 	#category : #'GT4OpenCV-!OpenCV'
 }
 
@@ -40,6 +43,11 @@ GtOpenCVCameraCapture >> captureFrame [
 	<return: #GtOpenCVImage>
 	
 	^ GtOpenCvVideoIO uniqueInstance queryFrame: self
+]
+
+{ #category : #'as yet unclassified' }
+GtOpenCVCameraCapture >> disableAutoExposure [
+	GtOpenCvVideoIO uniqueInstance setCaptureProperty: self id: CV_CAP_PROP_AUTO_EXPOSURE value: 0
 ]
 
 { #category : #'library path' }

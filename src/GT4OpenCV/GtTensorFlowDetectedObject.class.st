@@ -83,3 +83,13 @@ GtTensorFlowDetectedObject >> score [
 GtTensorFlowDetectedObject >> score: anObject [
 	score := anObject
 ]
+
+{ #category : #accessing }
+GtTensorFlowDetectedObject >> wideArea [
+	| aSquaredExtent anExpansion |
+	
+	aSquaredExtent := (self area extent max asPoint * 1.25).
+	anExpansion := (aSquaredExtent - self area extent) / 4.0.
+
+	^ (self area expandBy: anExpansion) floor intersect: (0@0 extent: self image extent) 
+]

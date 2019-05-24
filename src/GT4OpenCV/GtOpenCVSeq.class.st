@@ -22,7 +22,7 @@ Class {
 	#pools : [
 		'GtOpenCVConstants'
 	],
-	#category : #'GT4OpenCV-!OpenCV'
+	#category : #'GT4OpenCV-Structures'
 }
 
 { #category : #'library path' }
@@ -66,20 +66,6 @@ GtOpenCVSeq class >> fieldsDesc [
 		"Pointer to the first sequence block."
 		void* first
 	)
-]
-
-{ #category : #'api - opencv' }
-GtOpenCVSeq >> asConvexityDefects [
-	<return: #Collection of: #Point>
-
-	^ (1 to: self total) collect: [ :anIndex | GtOpenCVConvexityDefect fromHandle: (self at: anIndex) getHandle ]
-]
-
-{ #category : #'api - opencv' }
-GtOpenCVSeq >> asPoints [
-	<return: #Collection of: #Point>
-	
-	^ (1 to: self total) collect: [ :anIndex | (GtOpenCVPoint fromHandle: (self at: anIndex) getHandle) asPoint ]
 ]
 
 { #category : #accessing }

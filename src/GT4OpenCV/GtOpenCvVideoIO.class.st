@@ -36,5 +36,5 @@ GtOpenCvVideoIO >> releaseCapture: aCapture [
 
 { #category : #'opencv -  api' }
 GtOpenCvVideoIO >> setCaptureProperty: capture id: propertyId value: propertyValue [
-	^ self ffiCall: #(void cvSetCaptureProperty (void* capture, int propertyId, double propertyValue))
+	^ self ffiCall: #(void cvSetCaptureProperty (GtOpenCVCameraCapture capture, int propertyId, double propertyValue))
 ]
