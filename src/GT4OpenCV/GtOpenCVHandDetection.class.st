@@ -23,7 +23,7 @@ At first, to detect a hand in a picture we tried to rely solely on OpenCV (*http
 The first step is to capture a frame from a live camera stream. For the sake of this document we took a non-modified static frame from an iSight webcam integrated into a MacBook Pro:
 
 [[[show=gtPreviewFor:|height=200
-image := GtOpenCVImage fromFileNamed: 'hand.jpg'.
+image := GtOpenCVImage fromFileNamed: ((GtIcebergUtility repositoriesLocation / 'feenkcom' / 'gt4opencv' / 'pictures' / 'hand.jpg') fullName).
 ]]]
 
 Once frame is captured and stored in the memory we can start an actual hand detection. At first, we tried to rely solely on Computer Vision and *https://opencv.org* and its image processing capabilities to detect a hand in a picture.
