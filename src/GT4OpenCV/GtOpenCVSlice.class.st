@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVSlice,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#classVars : [
 		'OFFSET_END',
 		'OFFSET_START'

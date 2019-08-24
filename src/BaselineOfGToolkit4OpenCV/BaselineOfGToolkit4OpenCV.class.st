@@ -39,7 +39,8 @@ BaselineOfGToolkit4OpenCV >> postLoadGT4OpenCV [
 	(self class environment at: #TensorFlowCAPI) compile: 'macModuleName
 	^ self detectLibrary: ''libtensorflow.dylib'''.
 	
-	(self class environment at: #TF_Structure) withAllSubclassesDo: #rebuildFieldAccessors
+	(self class environment at: #TF_Structure) withAllSubclassesDo: #rebuildFieldAccessors.
+	(self class environment at: #GtOpenCVStructure) withAllSubclassesDo: #rebuildFieldAccessors
 ]
 
 { #category : #baselines }

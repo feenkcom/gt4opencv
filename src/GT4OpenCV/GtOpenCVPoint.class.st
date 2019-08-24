@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVPoint,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#classVars : [
 		'OFFSET_X',
 		'OFFSET_Y'

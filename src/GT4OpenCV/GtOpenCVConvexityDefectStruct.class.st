@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVConvexityDefectStruct,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#classVars : [
 		'OFFSET_DEPTH',
 		'OFFSET_DEPTH_POINT',

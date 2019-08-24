@@ -47,6 +47,18 @@ GtOpenCVConvexHull >> asPoints [
 	^ (1 to: self total) collect: [ :anIndex | (GtOpenCVPoint fromHandle: (self at: anIndex) getHandle) asPoint ]
 ]
 
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> block_max [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_BLOCK_MAX) type: ExternalType sbyte asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> block_max: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_BLOCK_MAX put: anObject getHandle.
+]
+
 { #category : #accessing }
 GtOpenCVConvexHull >> contour [
 	<return: #GtOpenCVContourTreeNode>
@@ -75,6 +87,66 @@ GtOpenCVConvexHull >> defects [
 	^ theDefects
 ]
 
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> delta_elems [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_DELTA_ELEMS
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> delta_elems: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_DELTA_ELEMS put: anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> elem_size [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_ELEM_SIZE
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> elem_size: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_ELEM_SIZE put: anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> first [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_FIRST) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> first: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_FIRST put: anObject getHandle.
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> flags [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_FLAGS
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> flags: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_FLAGS put: anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> free_blocks [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_FREE_BLOCKS) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> free_blocks: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_FREE_BLOCKS put: anObject getHandle.
+]
+
 { #category : #'gt-inspector-extension' }
 GtOpenCVConvexHull >> gtPreviewFor: aView [
 	<gtView>
@@ -92,6 +164,30 @@ GtOpenCVConvexHull >> gtPreviewFor: aView [
 			aContainer asScalableElement ]
 ]
 
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> h_next [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_H_NEXT) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> h_next: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_H_NEXT put: anObject getHandle.
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> h_prev [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_H_PREV) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> h_prev: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_H_PREV put: anObject getHandle.
+]
+
 { #category : #accessing }
 GtOpenCVConvexHull >> hasPoints [
 	^ hasPoints
@@ -100,6 +196,18 @@ GtOpenCVConvexHull >> hasPoints [
 { #category : #accessing }
 GtOpenCVConvexHull >> hasPoints: anObject [
 	hasPoints := anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> header_size [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_HEADER_SIZE
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> header_size: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_HEADER_SIZE put: anObject
 ]
 
 { #category : #accessing }
@@ -113,4 +221,64 @@ GtOpenCVConvexHull >> points [
 		points := self hasPoints
 			ifTrue: [ self asPoints ]
 			ifFalse: [ self contour convexHull points ] ]
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> ptr [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_PTR) type: ExternalType sbyte asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> ptr: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_PTR put: anObject getHandle.
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> storage [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_STORAGE) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> storage: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_STORAGE put: anObject getHandle.
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> total [
+	"This method was automatically generated"
+	^handle signedLongAt: OFFSET_TOTAL
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> total: anObject [
+	"This method was automatically generated"
+	handle signedLongAt: OFFSET_TOTAL put: anObject
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> v_next [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_V_NEXT) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> v_next: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_V_NEXT put: anObject getHandle.
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> v_prev [
+	"This method was automatically generated"
+	^ExternalData fromHandle: (handle pointerAt: OFFSET_V_PREV) type: ExternalType void asPointerType
+]
+
+{ #category : #'accessing structure variables' }
+GtOpenCVConvexHull >> v_prev: anObject [
+	"This method was automatically generated"
+	handle pointerAt: OFFSET_V_PREV put: anObject getHandle.
 ]
