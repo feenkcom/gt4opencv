@@ -48,7 +48,7 @@ GtTensorFlowHandDetector >> detect: anImage [
 			rank: 4
 			data: imageRGB imageData
 			length: imageRGB imageSize
-			dealocattor: nil
+			deallocator: nil
 			args: nil.
 
 	output := session
@@ -101,7 +101,7 @@ GtTensorFlowHandDetector >> gtPreviewFor: aView [
 GtTensorFlowHandDetector >> initialize [
 	super initialize.
 	
-	graph := TF_Graph fromBinaryFileNamed: 'frozen_inference_graph.pb'.
+	graph := TF_Graph fromBinaryFileNamed: (GtIcebergUtility repositoriesLocation / 'feenkcom' / 'gt4opencv' / 'models') fullName, '/frozen_inference_graph.pb'.
 
 	image_tensor := TF_Input onOperation: (graph operationNamed: 'image_tensor') index: 0.
 	detection_boxes := TF_Output onOperation: (graph operationNamed: 'detection_boxes') index: 0.
