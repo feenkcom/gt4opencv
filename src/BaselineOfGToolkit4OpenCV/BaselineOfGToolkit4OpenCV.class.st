@@ -19,7 +19,7 @@ BaselineOfGToolkit4OpenCV >> baseline: spec [
 			
 			spec
 				preLoadDoIt: #preLoadGT4OpenCV;
-				preLoadDoIt: #postLoadGT4OpenCV.
+				postLoadDoIt: #postLoadGT4OpenCV.
 			
 			spec
 				package: 'GT4OpenCV'
