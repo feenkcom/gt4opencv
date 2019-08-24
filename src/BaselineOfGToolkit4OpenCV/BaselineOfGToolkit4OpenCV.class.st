@@ -9,5 +9,9 @@ BaselineOfGToolkit4OpenCV >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
-		do: [ spec package: 'GT4OpenCV' ]
+		do: [
+			spec
+    			baseline: 'LibTensorFlowPharoBinding'
+    			with: [ spec repository: 'github://PolyMathOrg/libtensorflow-pharo-bindings' ].
+			spec package: 'GT4OpenCV' with: [ spec requires: #('LibTensorFlowPharoBinding' ) ] ]
 ]
