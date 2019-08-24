@@ -13,5 +13,22 @@ BaselineOfGToolkit4OpenCV >> baseline: spec [
 			spec
     			baseline: 'LibTensorFlowPharoBinding'
     			with: [ spec repository: 'github://PolyMathOrg/libtensorflow-pharo-bindings' ].
-			spec package: 'GT4OpenCV' with: [ spec requires: #('LibTensorFlowPharoBinding' ) ] ]
+			
+			spec
+				preLoadDoIt: #preLoadGToolkit.
+			
+			spec
+				package: 'GT4OpenCV'
+				with: [ spec requires: #('LibTensorFlowPharoBinding' ) ] ]
+]
+
+{ #category : #baselines }
+BaselineOfGToolkit4OpenCV >> preLoadGToolkit [
+	self class environment
+		at: #BaselineOfGToolkit
+		ifAbsent: [
+			Metacello new
+				baseline: 'GToolkit';
+				repository: 'github://feenkcom/gtoolkit/src';
+				load ]
 ]
