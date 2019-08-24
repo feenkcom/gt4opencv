@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVContour,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#traits : 'TGtOpenCVPtr',
 	#classTraits : 'TGtOpenCVPtr classTrait',
 	#classVars : [

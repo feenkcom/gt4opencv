@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVScalar,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#classVars : [
 		'OFFSET_FIRST',
 		'OFFSET_FOURTH',

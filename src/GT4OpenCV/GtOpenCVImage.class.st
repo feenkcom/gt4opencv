@@ -1,6 +1,6 @@
 Class {
 	#name : #GtOpenCVImage,
-	#superclass : #FFIExternalStructure,
+	#superclass : #GtOpenCVStructure,
 	#traits : 'TGtOpenCVPtr',
 	#classTraits : 'TGtOpenCVPtr classTrait',
 	#classVars : [
@@ -571,7 +571,7 @@ GtOpenCVImage >> extractMean [
 	sample := self crop: sampleBox.
 
 	mean := sample mean first: 3.
-
+	
 	offsetLowThreshold := 30.
 	offsetHighThreshold := 30.
 
@@ -579,6 +579,18 @@ GtOpenCVImage >> extractMean [
 	upperSkin := mean + offsetHighThreshold.
 
 	^ self inRangeLower: lowerSkin upper: upperSkin.
+]
+
+{ #category : #'api - opencv' }
+GtOpenCVImage >> extractMeanColor [
+	| sampleBox sample mean |
+
+	sampleBox := (self extent / (4.0 @ 4.0)) extent: (self extent / (2.0 @ (2) )).
+	sample := self crop: sampleBox.
+
+	mean := sample mean first: 3.
+	
+	^ Color r: mean third g: mean second b: mean first range: 255
 ]
 
 { #category : #resources }
