@@ -193,24 +193,127 @@ Class {
 }
 
 { #category : #examples }
-GtOpenCVHandDetection >> example01 [
+GtOpenCVHandDetection >> amountOfFingers [
 	<gtExample>
-	| image hands hand hsv mask contours contour |
-	image := GtOpenCVImage fromFileNamed: 'hand.jpg'.
+	^ self defectsPointingUp size + 1
+]
 
-	hands := GtTensorFlowHandDetector detect: image.
-	hand := image crop: (hands anyOne wideArea).
+{ #category : #examples }
+GtOpenCVHandDetection >> blackAndWhite127 [
+	<gtExample>
+	^ self grayscaleSmoothed threshold: 127 
+]
 
-	hsv := hand toHSV.
-	hsv := hsv gaussianBlur: 25@25.
-	mask := hsv extractMeanColor.
-	
-	mask inspect.
-	
-	"mask := mask expandBy: 10.
+{ #category : #examples }
+GtOpenCVHandDetection >> blackAndWhite170 [
+	<gtExample>
+	^ self grayscaleSmoothed threshold: 170 
+]
 
-	mask := mask inverted.
+{ #category : #examples }
+GtOpenCVHandDetection >> blackAndWhiteAdaptive [
+	<gtExample>
+	^ self grayscaleSmoothed adaptiveThreshold
+]
 
-	contours := mask contours.
-	contour := contours max."
+{ #category : #examples }
+GtOpenCVHandDetection >> blackAndWhiteOtsu [
+	<gtExample>
+	^ self grayscaleSmoothed otsuThreshold
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> contour [
+	<gtExample>
+	^ self contours max
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> contours [
+	<gtExample>
+	^ self maskInverted contours
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> convexHull [
+	<gtExample>
+	^ self contour convexHull
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> defects [
+	<gtExample>
+	^ self convexHull defects
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> defectsLessThan90 [
+	<gtExample>
+	^ self defects select: [ :each | each angle < 90 ]
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> defectsPointingUp [
+	<gtExample>
+	^ self defectsLessThan90 select: [ :each | each isUp ].
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> grayscale [
+	<gtExample>
+	^ self handImage toGray
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> grayscaleSmoothed [
+	<gtExample>
+	^ self grayscale gaussianBlur: 25@25 
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> hand [
+	<gtExample>
+	^ self handImage crop: (self hands anyOne wideArea).
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> handImage [
+	<gtExample>
+	^ GtOpenCVImage fromFileNamed: ((GtIcebergUtility repositoriesLocation / 'feenkcom' / 'gt4opencv' / 'pictures' / 'hand.jpg') fullName).
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> hands [
+	<gtExample>
+	^ GtTensorFlowHandDetector detect: self handImage.
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> hsv [
+	<gtExample>
+	^ self hand toHSV.
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> hsvSmoothed [
+	<gtExample>
+	^ self hsv gaussianBlur: 25@25.
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> mask [
+	<gtExample>
+	^ self hsvSmoothed extractMean expandBy: 10.
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> maskInverted [
+	<gtExample>
+	^ self mask inverted.
+]
+
+{ #category : #examples }
+GtOpenCVHandDetection >> skinColor [
+	<gtExample>
+	^ self hsvSmoothed extractMeanColor
 ]
