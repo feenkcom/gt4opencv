@@ -14,10 +14,6 @@ BaselineOfGToolkit4OpenCV >> baseline: spec [
 		for: #common
 		do: [
 			spec
-    			baseline: 'GToolkit'
-    			with: [ spec repository: 'github://feenkcom/gtoolkit/src' ].
-
-			spec
     			baseline: 'LibTensorFlowPharoBinding'
     			with: [ spec repository: 'github://PolyMathOrg/libtensorflow-pharo-bindings' ].
 			
