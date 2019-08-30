@@ -25,7 +25,7 @@ BaselineOfGToolkit4OpenCV >> baseline: spec [
 			
 			spec
 				package: 'GT4OpenCV'
-				with: [ spec requires: #('GToolkit LibTensorFlowPharoBinding') ] ]
+				with: [ spec requires: #('GToolkit' 'LibTensorFlowPharoBinding') ] ]
 ]
 
 { #category : #baselines }
