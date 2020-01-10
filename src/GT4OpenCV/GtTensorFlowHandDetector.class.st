@@ -93,7 +93,7 @@ GtTensorFlowHandDetector >> gtPreviewFor: aView [
 			| anElement |
 			anElement := GtOpenCVCameraElement new.
 			anElement filter: [ :anImage | anImage scaleBy: 0.5 ].
-			anElement filter: (GtOpenCVTensorFlowFilter new detector: self); filter: #toBGR.
+			anElement filter: (GtOpenCVTensorFlowFilter new detector: self).
 			anElement asScalableElement ]
 ]
 
