@@ -24,17 +24,18 @@ GtOpenCVCameraElement >> camera: aCameraCapture [
 
 { #category : #drawing }
 GtOpenCVCameraElement >> drawOnSpartaCanvas: aCanvas [
-	| surface |
+	| surface rgbaImage |
 	
 	super drawOnSpartaCanvas: aCanvas.
 
 	(image isNil or: [ image isNull ])
 		ifTrue: [ ^ self ].
-
+	
+	rgbaImage := image toRGBA.
 	surface := aCanvas bitmap
-		fromBGR: image imageData
-		extent: image width @ image height
-		stride: image widthStep.
+		fromRGBA: rgbaImage imageData getHandle
+		extent: rgbaImage width @ rgbaImage height
+		stride: rgbaImage widthStep.
 
 	aCanvas fill
 		paint: surface;

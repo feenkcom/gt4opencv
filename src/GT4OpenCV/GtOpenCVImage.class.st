@@ -281,7 +281,7 @@ GtOpenCVImage >> asForm [
 	| rgba aCanvas aSurface |
 	rgba := self toRGBA.
 
-	aCanvas := MozCanvas extent: rgba extent.
+	aCanvas := SkiaCanvas extent: rgba extent.
 	aSurface := aCanvas bitmap
 		fromRGBA: rgba imageData
 		extent: rgba extent
