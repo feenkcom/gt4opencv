@@ -648,7 +648,7 @@ GtOpenCVImage >> gtInfoFor: aView [
 	<gtView>
 	^ aView columnedList 
 		title: 'Info' translated;
-		priority: 10;
+		priority: 12;
 		items: [ { 
 			'Extent' -> self extent.
 			'Channels' -> self nChannels.
@@ -666,7 +666,7 @@ GtOpenCVImage >> gtPreviewFor: aView [
 	<gtView>
 	^ aView explicit
 		title: 'Live' translated;
-		priority: 10;
+		priority: 11;
 		stencil: [ self asElement
 			when: BlClickEvent do: [ :anEvent |	anEvent consumed: true. anEvent currentTarget phlow spawnObject: self ];
 			asScalableElement ]

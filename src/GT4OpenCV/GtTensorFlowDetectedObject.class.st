@@ -44,13 +44,34 @@ GtTensorFlowDetectedObject >> asElement [
 	^ aContainer
 ]
 
+{ #category : #'as yet unclassified' }
+GtTensorFlowDetectedObject >> gtHandsFor: aView [
+	<gtView>
+	^ aView explicit
+		title: 'Path' translated;
+		priority: 10;
+		stencil: [
+			| aContainer aHandImage aConvexHull theDefects |
+			aContainer := (self image asElement addChild: (self asElement relocate: self area origin)).
+		
+			aHandImage := (((self image crop: self wideArea) toHSV gaussianBlur: 25@25) extractMean expandBy: 10) inverted.
+			aConvexHull := aHandImage contours max convexHull.
+			theDefects := aConvexHull defects select: [ :each | each angle < 90 ].
+			theDefects := theDefects select: [ :each | each isUp ].
+			aContainer addChild: (theDefects asElement relocate: self area origin).
+					
+			aContainer
+				when: BlClickEvent do: [ :anEvent |	anEvent consumed: true. anEvent currentTarget phlow spawnObject: self ];
+				asScalableElement ]
+]
+
 { #category : #'gt-inspector-extension' }
 GtTensorFlowDetectedObject >> gtPreviewFor: aView [
 	<gtView>
 
 	^ aView explicit
 		title: 'Live' translated;
-		priority: 10;
+		priority: 11;
 		stencil: [ (self image asElement addChild: (self asElement relocate: self area origin)) asScalableElement ]
 ]
 
