@@ -101,7 +101,7 @@ GtTensorFlowHandDetector >> gtPreviewFor: aView [
 GtTensorFlowHandDetector >> initialize [
 	super initialize.
 	
-	graph := TF_Graph fromBinaryFileNamed: (GtIcebergUtility repositoriesLocation / 'feenkcom' / 'gt4opencv' / 'models') fullName, '/frozen_inference_graph.pb'.
+	graph := TF_Graph fromBinaryFileNamed: (GtResourcesUtility resourceAtPath: Path * 'feenkcom' / 'gt4opencv' / 'models') fullName, '/frozen_inference_graph.pb'.
 
 	image_tensor := TF_Input onOperation: (graph operationNamed: 'image_tensor') index: 0.
 	detection_boxes := TF_Output onOperation: (graph operationNamed: 'detection_boxes') index: 0.

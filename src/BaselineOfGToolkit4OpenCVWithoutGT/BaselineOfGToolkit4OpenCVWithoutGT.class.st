@@ -33,10 +33,7 @@ BaselineOfGToolkit4OpenCVWithoutGT >> postLoadGT4OpenCV [
 	PostLoaded := true.
 
 	(self class environment at: #GtOpenCVLibrary) install.
-	(self class environment at: #GtTensorflowLibrary) install.
-	
-	(self class environment at: #TensorFlowCAPI) compile: 'macModuleName
-	^ self detectLibrary: ''libtensorflow.dylib'''.
+"	(self class environment at: #GtTensorflowLibrary) install."
 	
 	(self class environment at: #TF_Structure) withAllSubclassesDo: #rebuildFieldAccessors.
 	(self class environment at: #GtOpenCVStructure) withAllSubclassesDo: #rebuildFieldAccessors
