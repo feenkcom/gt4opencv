@@ -10,7 +10,7 @@ OpenCV version 3:
 brew install opencv@3
 ```
 
-Tensorflow:
+Tensorflow version 1.14.0:
 ```
 brew install tensorflow
 ```
