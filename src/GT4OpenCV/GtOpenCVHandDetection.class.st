@@ -151,11 +151,8 @@ And then choose only those defects whose cavity is below the anchor points:
 ${example:GtOpenCVHandDetection>>#defectsPointingUp|previewShow=gtPreviewFor:|noCode}$
 
 
-As the last but not least step we count the amount of convexity defects that match finger properties and after adding one we get the amount of fingers shown by the user:
+As the last but not least step we count the amount of convexity defects that match finger properties and after adding one we get the amount of fingers shown by the user: ${example:GtOpenCVHandDetection>>#amountOfFingers|label=#printString}$
 
-${example:GtOpenCVHandDetection>>#amountOfFingers|previewShow=gtIntegerFor:|noCode}$
-
-In this example it is 5.
 "
 Class {
 	#name : #GtOpenCVHandDetection,
@@ -250,7 +247,7 @@ GtOpenCVHandDetection >> hand [
 { #category : #examples }
 GtOpenCVHandDetection >> handImage [
 	<gtExample>
-	^ GtOpenCVImage fromFileNamed: ((GtIcebergUtility repositoriesLocation / 'feenkcom' / 'gt4opencv' / 'pictures' / 'hand.jpg') fullName).
+	^ GtOpenCVImage fromFileNamed: ((GtResourcesUtility resourceAtPath: 'feenkcom/gt4opencv/pictures/hand.jpg') fullName).
 ]
 
 { #category : #examples }
