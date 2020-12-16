@@ -216,3 +216,8 @@ GtOpenCvImgproc >> thresholdSrc: aSourceImage dest: aDestinationImage threshold:
 		double aMaxValue,
 		int thresholdType))
 ]
+
+{ #category : #'accessing platform' }
+GtOpenCvImgproc >> unixModuleName [
+	^ self detectLibrary: 'libopencv_imgproc.so'
+]

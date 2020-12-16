@@ -121,11 +121,6 @@ GtOpenCVLibrary >> getSize: anImage [
 	^ self primGetSize: anImage getHandle
 ]
 
-{ #category : #'opencv - instance creation' }
-GtOpenCVLibrary >> loadImage: aFileName format: aLoadImageFormat [
-	^ (self primLoadImage: aFileName format: aLoadImageFormat) autoRelease
-]
-
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> macModuleName [
 	^ self detectLibrary: self moduleName, '.dylib'
@@ -186,11 +181,6 @@ GtOpenCVLibrary >> primGetSize: anImage [
 ]
 
 { #category : #'private - ffi' }
-GtOpenCVLibrary >> primLoadImage: aFileName format: aLoadImageFormat [
-	^ self ffiCall: #(GtOpenCVImage* cvLoadImage(String aFileName, int aLoadImageFormat))
-]
-
-{ #category : #'private - ffi' }
 GtOpenCVLibrary >> primReleaseMemStorage: aMemStorage [
 	^ self ffiCall: #(void cvReleaseMemStorage(void* aMemStorage))
 ]
@@ -229,7 +219,7 @@ GtOpenCVLibrary >> split: anImage into: theOutputImages [
 
 { #category : #'accessing platform' }
 GtOpenCVLibrary >> unixModuleName [
-	^ self detectLibrary: self moduleName, '.so'
+	^ self detectLibrary: 'libopencv_core.so'
 ]
 
 { #category : #'accessing platform' }

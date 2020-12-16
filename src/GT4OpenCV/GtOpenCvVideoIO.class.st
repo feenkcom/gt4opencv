@@ -38,3 +38,8 @@ GtOpenCvVideoIO >> releaseCapture: aCapture [
 GtOpenCvVideoIO >> setCaptureProperty: capture id: propertyId value: propertyValue [
 	^ self ffiCall: #(void cvSetCaptureProperty (GtOpenCVCameraCapture capture, int propertyId, double propertyValue))
 ]
+
+{ #category : #'accessing platform' }
+GtOpenCvVideoIO >> unixModuleName [
+	^ self detectLibrary: 'libopencv_videoio.so'
+]

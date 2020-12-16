@@ -99,7 +99,7 @@ GtOpenCVImage class >> fieldsDesc [
 
 { #category : #'instance creation' }
 GtOpenCVImage class >> fromFileNamed: aFileName [
-	^ GtOpenCVLibrary uniqueInstance
+	^ GtOpenCvImgCodecs uniqueInstance
 		loadImage: aFileName
 		format: CV_LOAD_IMAGE_COLOR "in BGR"
 ]
