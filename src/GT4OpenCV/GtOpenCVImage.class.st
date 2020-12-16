@@ -646,18 +646,22 @@ GtOpenCVImage >> gaussianBlur: aKernelSize sigma: aSigma [
 { #category : #extensions }
 GtOpenCVImage >> gtInfoFor: aView [
 	<gtView>
-	^ aView columnedList 
+	^ aView columnedList
 		title: 'Info' translated;
 		priority: 12;
-		items: [ { 
-			'Extent' -> self extent.
-			'Channels' -> self nChannels.
-			'Color Model' -> self colorModel.
-		} ];
-		column: 'Key' do: [:aColumn | 
-			aColumn item: [ :each | each key asString ]; matchParent ];
-		column: 'Value' do: [:aColumn |
-			aColumn item: [ :each | each value gtDisplayString ]; matchParent ];
+		items: [ {('Extent' -> self extent).
+			('Channels' -> self nChannels).
+			('Color Model' -> self colorModel)} ];
+		column: 'Key'
+			do: [ :aColumn | 
+			aColumn
+				item: [ :each | each key asString ];
+				weight: 1 ];
+		column: 'Value'
+			do: [ :aColumn | 
+			aColumn
+				item: [ :each | each value gtDisplayString ];
+				weight: 1 ];
 		send: #value
 ]
 
