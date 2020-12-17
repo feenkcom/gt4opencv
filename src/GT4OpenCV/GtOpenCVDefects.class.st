@@ -56,6 +56,8 @@ GtOpenCVDefects >> copyEmpty [
 { #category : #converting }
 GtOpenCVDefects >> gtPreviewFor: aView [
 	<gtView>
+
+	contour ifNil: [ ^ aView empty ].
 	^ aView explicit
 		title: 'Live' translated;
 		priority: 10;
