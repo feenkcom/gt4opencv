@@ -63,20 +63,24 @@ GtOpenCVDefect >> far: anObject [
 { #category : #extensions }
 GtOpenCVDefect >> gtInfoFor: aView [
 	<gtView>
-	^ aView columnedList 
+	^ aView columnedList
 		title: 'Info' translated;
 		priority: 10;
-		items: [ { 
-			'Start' -> self start.
-			'End' -> self end.
-			'Far' -> self far.
-			'Depth' -> self depth.
-			'Angle' -> self angle
-		} ];
-		column: 'Key' do: [:aColumn | 
-			aColumn item: [ :each | each key asString ]; matchParent ];
-		column: 'Value' do: [:aColumn |
-			aColumn item: [ :each | each value gtDisplayString ]; matchParent ];
+		items: [ {('Start' -> self start).
+			('End' -> self end).
+			('Far' -> self far).
+			('Depth' -> self depth).
+			('Angle' -> self angle)} ];
+		column: 'Key'
+			do: [ :aColumn | 
+			aColumn
+				item: [ :each | each key asString ];
+				weight: 1 ];
+		column: 'Value'
+			do: [ :aColumn | 
+			aColumn
+				item: [ :each | each value gtDisplayString ];
+				weight: 1 ];
 		send: #value
 ]
 
